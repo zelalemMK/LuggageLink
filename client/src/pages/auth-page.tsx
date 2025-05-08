@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Link } from "wouter";
+import { Link, Redirect } from "wouter";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -23,7 +23,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/hooks/use-auth";
-import { Link, Redirect } from "wouter";
 import { Helmet } from "react-helmet";
 
 // Login schema
@@ -86,7 +85,10 @@ export default function AuthPage() {
     <>
       <Helmet>
         <title>Login or Register - LuggageLink</title>
-        <meta name="description" content="Sign in to your LuggageLink account or create a new one to connect with travelers and send packages to Ethiopia." />
+        <meta
+          name="description"
+          content="Sign in to your LuggageLink account or create a new one to connect with travelers and send packages to Ethiopia."
+        />
       </Helmet>
       <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl w-full flex">
@@ -105,11 +107,17 @@ export default function AuthPage() {
                   </Link>
                 </div>
                 <p className="mt-2 text-sm text-gray-600">
-                  {activeTab === "login" ? "Sign in to your account" : "Create a new account"}
+                  {activeTab === "login"
+                    ? "Sign in to your account"
+                    : "Create a new account"}
                 </p>
               </div>
 
-              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+              <Tabs
+                value={activeTab}
+                onValueChange={setActiveTab}
+                className="w-full"
+              >
                 <TabsList className="grid w-full grid-cols-2 mb-8">
                   <TabsTrigger value="login">Login</TabsTrigger>
                   <TabsTrigger value="register">Register</TabsTrigger>
@@ -125,7 +133,10 @@ export default function AuthPage() {
                     </CardHeader>
                     <CardContent>
                       <Form {...loginForm}>
-                        <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-4">
+                        <form
+                          onSubmit={loginForm.handleSubmit(onLoginSubmit)}
+                          className="space-y-4"
+                        >
                           <FormField
                             control={loginForm.control}
                             name="email"
@@ -133,7 +144,10 @@ export default function AuthPage() {
                               <FormItem>
                                 <FormLabel>Email</FormLabel>
                                 <FormControl>
-                                  <Input placeholder="Your email address" {...field} />
+                                  <Input
+                                    placeholder="Your email address"
+                                    {...field}
+                                  />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -146,18 +160,24 @@ export default function AuthPage() {
                               <FormItem>
                                 <FormLabel>Password</FormLabel>
                                 <FormControl>
-                                  <Input type="password" placeholder="Your password" {...field} />
+                                  <Input
+                                    type="password"
+                                    placeholder="Your password"
+                                    {...field}
+                                  />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
                             )}
                           />
-                          <Button 
-                            type="submit" 
+                          <Button
+                            type="submit"
                             className="w-full"
                             disabled={loginMutation.isPending}
                           >
-                            {loginMutation.isPending ? "Signing in..." : "Sign In"}
+                            {loginMutation.isPending
+                              ? "Signing in..."
+                              : "Sign In"}
                           </Button>
                         </form>
                       </Form>
@@ -165,7 +185,11 @@ export default function AuthPage() {
                     <CardFooter className="flex justify-center">
                       <p className="text-sm text-gray-600">
                         Don't have an account?{" "}
-                        <Button variant="link" className="p-0" onClick={() => setActiveTab("register")}>
+                        <Button
+                          variant="link"
+                          className="p-0"
+                          onClick={() => setActiveTab("register")}
+                        >
                           Register
                         </Button>
                       </p>
@@ -183,7 +207,10 @@ export default function AuthPage() {
                     </CardHeader>
                     <CardContent>
                       <Form {...registerForm}>
-                        <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-4">
+                        <form
+                          onSubmit={registerForm.handleSubmit(onRegisterSubmit)}
+                          className="space-y-4"
+                        >
                           <div className="grid grid-cols-2 gap-4">
                             <FormField
                               control={registerForm.control}
@@ -192,7 +219,10 @@ export default function AuthPage() {
                                 <FormItem>
                                   <FormLabel>First Name</FormLabel>
                                   <FormControl>
-                                    <Input placeholder="First name" {...field} />
+                                    <Input
+                                      placeholder="First name"
+                                      {...field}
+                                    />
                                   </FormControl>
                                   <FormMessage />
                                 </FormItem>
@@ -219,7 +249,11 @@ export default function AuthPage() {
                               <FormItem>
                                 <FormLabel>Email</FormLabel>
                                 <FormControl>
-                                  <Input type="email" placeholder="Your email" {...field} />
+                                  <Input
+                                    type="email"
+                                    placeholder="Your email"
+                                    {...field}
+                                  />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -233,18 +267,24 @@ export default function AuthPage() {
                               <FormItem>
                                 <FormLabel>Password</FormLabel>
                                 <FormControl>
-                                  <Input type="password" placeholder="Create a password" {...field} />
+                                  <Input
+                                    type="password"
+                                    placeholder="Create a password"
+                                    {...field}
+                                  />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
                             )}
                           />
-                          <Button 
-                            type="submit" 
+                          <Button
+                            type="submit"
                             className="w-full"
                             disabled={registerMutation.isPending}
                           >
-                            {registerMutation.isPending ? "Creating account..." : "Create Account"}
+                            {registerMutation.isPending
+                              ? "Creating account..."
+                              : "Create Account"}
                           </Button>
                         </form>
                       </Form>
@@ -252,7 +292,11 @@ export default function AuthPage() {
                     <CardFooter className="flex justify-center">
                       <p className="text-sm text-gray-600">
                         Already have an account?{" "}
-                        <Button variant="link" className="p-0" onClick={() => setActiveTab("login")}>
+                        <Button
+                          variant="link"
+                          className="p-0"
+                          onClick={() => setActiveTab("login")}
+                        >
                           Sign in
                         </Button>
                       </p>
@@ -266,34 +310,85 @@ export default function AuthPage() {
           {/* Right side: Hero section */}
           <div className="flex-1 hidden lg:block">
             <div className="flex flex-col justify-center h-full p-8 bg-primary-600 text-black rounded-lg">
-              <h2 className="text-3xl font-bold mb-6 text-black">Send Packages to Ethiopia with Ease</h2>
+              <h2 className="text-3xl font-bold mb-6 text-black">
+                Send Packages to Ethiopia with Ease
+              </h2>
               <p className="text-lg mb-8 text-black">
-                Connect with travelers heading to Ethiopia and send your packages safely and affordably.
+                Connect with travelers heading to Ethiopia and send your
+                packages safely and affordably.
               </p>
               <ul className="space-y-4">
                 <li className="flex items-start">
-                  <svg className="h-6 w-6 text-black mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <svg
+                    className="h-6 w-6 text-black mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
-                  <span className="text-black">Verified travelers with space in their luggage</span>
+                  <span className="text-black">
+                    Verified travelers with space in their luggage
+                  </span>
                 </li>
                 <li className="flex items-start">
-                  <svg className="h-6 w-6 text-black mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <svg
+                    className="h-6 w-6 text-black mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
-                  <span className="text-black">Secure payment through escrow system</span>
+                  <span className="text-black">
+                    Secure payment through escrow system
+                  </span>
                 </li>
                 <li className="flex items-start">
-                  <svg className="h-6 w-6 text-black mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <svg
+                    className="h-6 w-6 text-black mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
-                  <span className="text-black">Track your package until delivery</span>
+                  <span className="text-black">
+                    Track your package until delivery
+                  </span>
                 </li>
                 <li className="flex items-start">
-                  <svg className="h-6 w-6 text-black mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <svg
+                    className="h-6 w-6 text-black mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
-                  <span className="text-black">Save money compared to traditional shipping</span>
+                  <span className="text-black">
+                    Save money compared to traditional shipping
+                  </span>
                 </li>
               </ul>
             </div>
