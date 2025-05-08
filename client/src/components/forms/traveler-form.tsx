@@ -68,21 +68,22 @@ export function TravelerForm() {
     departureDate: formatDateForInput(new Date()),
     arrivalDate: formatDateForInput(new Date(Date.now() + 86400000)), // Tomorrow
     airline: "",
-    flightNumber: "",
+    ticketNumber: "",
+    lastName: "",
     availableWeight: 5,
     pricePerKg: 15,
     notes: "",
     terms: false,
   };
 
-  const lookupFlight = async (flightNumber: string) => {
-    if (!flightNumber) return;
+  const lookupFlight = async (ticketNumber: string, lastName: string) => {
+    if (!ticketNumber || !lastName) return;
     
     setIsLookingUp(true);
     try {
       // Simulated flight lookup - in reality you would call an airline API
       // This is just an example showing Ethiopian Airlines flights
-      if (flightNumber.toUpperCase().startsWith('ET')) {
+      if (ticketNumber.length >= 6) {
         const flightInfo = {
           airline: "Ethiopian Airlines",
           departureAirport: "JFK", // This would come from API
@@ -104,7 +105,7 @@ export function TravelerForm() {
       } else {
         toast({
           title: "Flight not found",
-          description: "Please enter a valid Ethiopian Airlines flight number (ET...)",
+          description: "Please enter a valid ticket number and last name",
           variant: "destructive",
         });
       }
@@ -184,7 +185,7 @@ export function TravelerForm() {
               control={form.control}
               name="airline"
               render={({ field }) => (
-                <FormItem className="sm:col-span-3">
+                <FormItem className="sm:col-span-6">
                   <FormLabel>Airline</FormLabel>
                   <FormControl>
                     <Input placeholder="e.g. Ethiopian Airlines" {...field} disabled={isLookingUp} />
@@ -197,25 +198,39 @@ export function TravelerForm() {
 
             <FormField
               control={form.control}
-              name="flightNumber"
+              name="ticketNumber"
               render={({ field }) => (
                 <FormItem className="sm:col-span-3">
-                  <FormLabel>Flight Number*</FormLabel>
+                  <FormLabel>Ticket Number*</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g. 071234567890" {...field} disabled={isLookingUp} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem className="sm:col-span-3">
+                  <FormLabel>Last Name*</FormLabel>
                   <div className="flex space-x-2">
                     <FormControl>
-                      <Input placeholder="e.g. ET501" {...field} disabled={isLookingUp} />
+                      <Input placeholder="Enter last name" {...field} disabled={isLookingUp} />
                     </FormControl>
                     <Button 
                       type="button"
                       variant="secondary"
-                      onClick={() => lookupFlight(field.value)}
-                      disabled={isLookingUp || !field.value}
+                      onClick={() => lookupFlight(form.getValues("ticketNumber"), field.value)}
+                      disabled={isLookingUp || !field.value || !form.getValues("ticketNumber")}
                     >
                       {isLookingUp ? "Looking up..." : "Lookup"}
                     </Button>
                   </div>
                   <FormDescription className="text-red-500">
-                    Enter Ethiopian Airlines flight number and click lookup to continue
+                    Enter ticket number and last name, then click lookup
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
