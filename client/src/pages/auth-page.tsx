@@ -37,6 +37,7 @@ const registerSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters"),
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
+  idDocument: z.string().optional(), // Added idDocument field to schema
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -45,6 +46,7 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 export default function AuthPage() {
   const [activeTab, setActiveTab] = useState<string>("login");
   const { user, loginMutation, registerMutation } = useAuth();
+  const [registrationStep, setRegistrationStep] = useState(1);
 
   // Login Form
   const loginForm = useForm<LoginFormValues>({
@@ -63,8 +65,25 @@ export default function AuthPage() {
       password: "",
       firstName: "",
       lastName: "",
+      idDocument: null,
     },
   });
+
+  const handleNextStep = () => {
+    const currentFields = registrationStep === 1
+      ? ["email", "password", "firstName", "lastName"]
+      : ["idDocument"];
+
+    const isValid = currentFields.every((field) =>
+      !registerForm.formState.errors[field as keyof RegisterFormValues]
+    );
+
+    if (isValid) {
+      setRegistrationStep(registrationStep + 1);
+    } else {
+      registerForm.trigger(currentFields as any);
+    }
+  };
 
   // Handle login submit
   function onLoginSubmit(values: LoginFormValues) {
@@ -207,85 +226,118 @@ export default function AuthPage() {
                     </CardHeader>
                     <CardContent>
                       <Form {...registerForm}>
-                        <form
-                          onSubmit={registerForm.handleSubmit(onRegisterSubmit)}
-                          className="space-y-4"
-                        >
-                          <div className="grid grid-cols-2 gap-4">
-                            <FormField
-                              control={registerForm.control}
-                              name="firstName"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>First Name</FormLabel>
-                                  <FormControl>
-                                    <Input
-                                      placeholder="First name"
-                                      {...field}
-                                    />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            <FormField
-                              control={registerForm.control}
-                              name="lastName"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Last Name</FormLabel>
-                                  <FormControl>
-                                    <Input placeholder="Last name" {...field} />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                          </div>
-                          <FormField
-                            control={registerForm.control}
-                            name="email"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Email</FormLabel>
-                                <FormControl>
-                                  <Input
-                                    type="email"
-                                    placeholder="Your email"
-                                    {...field}
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
+                        <form className="space-y-4">
+                          {registrationStep === 1 && (
+                            <>
+                              <div className="grid grid-cols-2 gap-4">
+                                <FormField
+                                  control={registerForm.control}
+                                  name="firstName"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>First Name</FormLabel>
+                                      <FormControl>
+                                        <Input
+                                          placeholder="First name"
+                                          {...field}
+                                        />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={registerForm.control}
+                                  name="lastName"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Last Name</FormLabel>
+                                      <FormControl>
+                                        <Input
+                                          placeholder="Last name"
+                                          {...field}
+                                        />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+                              <FormField
+                                control={registerForm.control}
+                                name="email"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Email</FormLabel>
+                                    <FormControl>
+                                      <Input
+                                        type="email"
+                                        placeholder="Your email"
+                                        {...field}
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
 
-                          <FormField
-                            control={registerForm.control}
-                            name="password"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Password</FormLabel>
-                                <FormControl>
-                                  <Input
-                                    type="password"
-                                    placeholder="Create a password"
-                                    {...field}
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <Button
-                            type="submit"
-                            className="w-full"
-                            disabled={registerMutation.isPending}
-                          >
-                            {registerMutation.isPending
-                              ? "Creating account..."
-                              : "Create Account"}
-                          </Button>
+                              <FormField
+                                control={registerForm.control}
+                                name="password"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Password</FormLabel>
+                                    <FormControl>
+                                      <Input
+                                        type="password"
+                                        placeholder="Create a password"
+                                        {...field}
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                              <Button
+                                type="button"
+                                onClick={handleNextStep}
+                                className="w-full"
+                              >
+                                Next
+                              </Button>
+                            </>
+                          )}
+                          {registrationStep === 2 && (
+                            <>
+                              <FormField
+                                control={registerForm.control}
+                                name="idDocument"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>ID Document</FormLabel>
+                                    <FormControl>
+                                      <Input
+                                        type="file"
+                                        accept=".pdf,.jpg,.jpeg,.png"
+                                        {...field}
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                              <Button
+                                type="submit"
+                                className="w-full"
+                                onClick={registerForm.handleSubmit(onRegisterSubmit)}
+                                disabled={registerMutation.isPending}
+                              >
+                                {registerMutation.isPending
+                                  ? "Creating account..."
+                                  : "Create Account"}
+                              </Button>
+                            </>
+                          )}
                         </form>
                       </Form>
                     </CardContent>
