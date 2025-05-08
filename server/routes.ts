@@ -680,25 +680,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
     
     try {
-      const { verificationType } = req.body;
+      const { verificationType, inquiryId } = req.body;
       
       if (!verificationType || !['idVerified', 'phoneVerified', 'addressVerified'].includes(verificationType)) {
         return res.status(400).json({ message: "Invalid verification type" });
       }
-      
-      // In a real app, we would perform actual verification here
-      // For this MVP, we'll just mark it as verified
-      const verificationData = {
-        [verificationType]: true
-      };
-      
-      const updatedUser = await storage.updateUserVerification(req.user!.id, verificationData);
-      
-      res.json({
-        verificationStatus: updatedUser.verificationStatus,
-        isVerified: updatedUser.isVerified
+
+      // Verify with Persona API
+      const response = await fetch(`https://withpersona.com/api/v1/inquiries/${inquiryId}`, {
+        headers: {
+          'Authorization': `Bearer ${PERSONA_API_KEY}`,
+          'Accept': 'application/json'
+        }
       });
+
+      if (!response.ok) {
+        throw new Error('Failed to verify with Persona');
+      }
+
+      const data = await response.json();
+      const isVerified = data.data.attributes.status === 'completed';
+      
+      if (isVerified) {
+        const verificationData = {
+          [verificationType]: true
+        };
+        
+        const updatedUser = await storage.updateUserVerification(req.user!.id, verificationData);
+        
+        res.json({
+          verificationStatus: updatedUser.verificationStatus,
+          isVerified: updatedUser.isVerified
+        });
+      } else {
+        res.status(400).json({ message: "Verification not completed" });
+      }
     } catch (error) {
+      console.error('Verification error:', error);
       res.status(500).json({ message: "Verification failed" });
     }
   });
