@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 
 const formSchema = z.object({
+  departureAirport: z.string().optional(),
   destinationCity: z.string().optional(),
   departureDate: z.string().optional(),
   returnDate: z.string().optional(),
@@ -40,6 +41,7 @@ export function TravelersFilter({ onApplyFilters }: TravelersFilterProps) {
   const form = useForm<TravelersFilterFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      departureAirport: "",
       destinationCity: "",
       departureDate: "",
       returnDate: "",
@@ -62,6 +64,22 @@ export function TravelersFilter({ onApplyFilters }: TravelersFilterProps) {
         
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="departureAirport"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Departure Airport</FormLabel>
+                  <FormControl>
+                    <Input 
+                      placeholder="e.g. JFK, LAX" 
+                      {...field} 
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            
             <FormField
               control={form.control}
               name="destinationCity"

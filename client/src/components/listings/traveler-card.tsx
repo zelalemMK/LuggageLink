@@ -24,7 +24,7 @@ interface TravelerCardProps {
   };
   trip: {
     id: number;
-    departureCity: string;
+    departureAirport: string;
     destinationCity: string;
     departureDate: string;
     availableWeight: number;
@@ -83,7 +83,7 @@ export function TravelerCard({ traveler, trip, onContactClick }: TravelerCardPro
           <div className="col-span-2">
             <div className="flex items-center text-gray-500 mb-2">
               <Plane className="h-4 w-4 mr-2" />
-              <span>{trip.departureCity}</span>
+              <span>{trip.departureAirport}</span>
               <svg className="h-4 w-4 mx-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
