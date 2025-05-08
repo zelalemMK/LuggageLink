@@ -264,7 +264,7 @@ export function TravelerForm() {
                     <Button 
                       type="button"
                       variant="secondary"
-                      onClick={() => lookupFlight(form.getValues("ticketNumber"), field.value)}
+                      onClick={() => lookupFlight(form.getValues("ticketNumber") ?? "", field.value ?? "")}
                       disabled={isLookingUp || !field.value || !form.getValues("ticketNumber")}
                     >
                       {isLookingUp ? "Looking up..." : "Lookup"}
