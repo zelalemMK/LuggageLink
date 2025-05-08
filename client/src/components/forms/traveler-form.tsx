@@ -212,6 +212,21 @@ export function TravelerForm() {
         return;
       }
 
+      // Ensure dates are valid
+      if (!departureDateObj || !arrivalDateObj || isNaN(departureDateObj.getTime()) || isNaN(arrivalDateObj.getTime())) {
+        toast({
+          title: "Invalid dates",
+          description: "Please enter valid departure and arrival dates",
+          variant: "destructive",
+        });
+        setSubmitting(false);
+        return;
+      }
+
+      // Set time to noon UTC to avoid timezone issues
+      departureDateObj.setUTCHours(12, 0, 0, 0);
+      arrivalDateObj.setUTCHours(12, 0, 0, 0);
+
       const formattedValues = {
         ...values,
         departureDate: departureDateObj.toISOString(),
