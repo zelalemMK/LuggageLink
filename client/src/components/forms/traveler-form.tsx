@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useLocation } from "wouter";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -62,6 +63,7 @@ export function TravelerForm() {
   const { toast } = useToast();
   const [submitting, setSubmitting] = useState(false);
   const [isLookingUp, setIsLookingUp] = useState(false);
+  const [location, setLocation] = useLocation(); // Added useLocation hook
 
   // Default values for the form
   const defaultValues: Partial<TripFormValues> = {
@@ -79,7 +81,7 @@ export function TravelerForm() {
 
   const lookupFlight = async (ticketNumber: string, lastName: string) => {
     if (!ticketNumber || !lastName) return;
-    
+
     setIsLookingUp(true);
     try {
       // Temporary mock data for testing
@@ -87,15 +89,15 @@ export function TravelerForm() {
         // Mock different flights based on ticket number
         const airports = ["JFK", "IAD", "LAX", "ORD", "BOS"];
         const departureAirport = airports[parseInt(ticketNumber.slice(-1)) % airports.length];
-        
+
         // Generate dates 2-7 days in future
         const daysToAdd = 2 + (parseInt(ticketNumber.slice(-2)) % 5);
         const departureDate = new Date();
         departureDate.setDate(departureDate.getDate() + daysToAdd);
-        
+
         const arrivalDate = new Date(departureDate);
         arrivalDate.setHours(arrivalDate.getHours() + 15); // 15 hour flight
-        
+
         const flightInfo = {
           departureAirport,
           destinationCity: "Addis Ababa",
@@ -172,9 +174,9 @@ export function TravelerForm() {
       });
       return;
     }
-    
+
     setSubmitting(true);
-    
+
     // Create a copy of values with proper date conversions and validation
     const departureDate = new Date(values.departureDate);
     const arrivalDate = new Date(values.arrivalDate);
@@ -250,7 +252,7 @@ export function TravelerForm() {
   return (
     <div>
       <h3 className="text-xl font-semibold text-gray-900 mb-6">Post Your Trip to Ethiopia</h3>
-      
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
@@ -370,7 +372,7 @@ export function TravelerForm() {
               )}
             />
 
-            
+
 
             <FormField
               control={form.control}
