@@ -171,11 +171,36 @@ export function TravelerForm() {
     
     setSubmitting(true);
     
-    // Create a copy of values with proper date conversions
+    // Create a copy of values with proper date conversions and validation
+    const departureDate = new Date(values.departureDate);
+    const arrivalDate = new Date(values.arrivalDate);
+
+    // Validate that departure is not before today and arrival not before departure
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (departureDate < today) {
+      toast({
+        title: "Invalid departure date",
+        description: "Departure date cannot be in the past",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (arrivalDate < departureDate) {
+      toast({
+        title: "Invalid arrival date",
+        description: "Arrival date must be after departure date",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const formattedValues = {
       ...values,
-      departureDate: new Date(values.departureDate),
-      arrivalDate: new Date(values.arrivalDate),
+      departureDate: departureDate.toISOString(),
+      arrivalDate: arrivalDate.toISOString(),
     };
     
     tripMutation.mutate(formattedValues);
