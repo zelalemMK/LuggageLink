@@ -59,6 +59,7 @@ type TripFormValues = z.infer<typeof formSchema>;
 export function TravelerForm() {
   const { toast } = useToast();
   const [submitting, setSubmitting] = useState(false);
+  const [isLookingUp, setIsLookingUp] = useState(false);
 
   // Default values for the form
   const defaultValues: Partial<TripFormValues> = {
@@ -72,6 +73,50 @@ export function TravelerForm() {
     pricePerKg: 15,
     notes: "",
     terms: false,
+  };
+
+  const lookupFlight = async (flightNumber: string) => {
+    if (!flightNumber) return;
+    
+    setIsLookingUp(true);
+    try {
+      // Simulated flight lookup - in reality you would call an airline API
+      // This is just an example showing Ethiopian Airlines flights
+      if (flightNumber.toUpperCase().startsWith('ET')) {
+        const flightInfo = {
+          airline: "Ethiopian Airlines",
+          departureAirport: "JFK", // This would come from API
+          destinationCity: "Addis Ababa",
+          departureDate: new Date(), // This would come from API
+          arrivalDate: new Date(Date.now() + 86400000), // This would come from API
+        };
+
+        form.setValue("airline", flightInfo.airline);
+        form.setValue("departureAirport", flightInfo.departureAirport);
+        form.setValue("destinationCity", flightInfo.destinationCity);
+        form.setValue("departureDate", formatDateForInput(flightInfo.departureDate));
+        form.setValue("arrivalDate", formatDateForInput(flightInfo.arrivalDate));
+
+        toast({
+          title: "Flight found",
+          description: "Flight details have been populated",
+        });
+      } else {
+        toast({
+          title: "Flight not found",
+          description: "Please enter a valid Ethiopian Airlines flight number (ET...)",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error looking up flight",
+        description: "Failed to fetch flight details",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLookingUp(false);
+    }
   };
 
   const form = useForm<TripFormValues>({
@@ -223,10 +268,23 @@ export function TravelerForm() {
               name="flightNumber"
               render={({ field }) => (
                 <FormItem className="sm:col-span-3">
-                  <FormLabel>Flight Number (optional)</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g. ET501" {...field} />
-                  </FormControl>
+                  <FormLabel>Flight Number</FormLabel>
+                  <div className="flex space-x-2">
+                    <FormControl>
+                      <Input placeholder="e.g. ET501" {...field} />
+                    </FormControl>
+                    <Button 
+                      type="button"
+                      variant="secondary"
+                      onClick={() => lookupFlight(field.value)}
+                      disabled={isLookingUp || !field.value}
+                    >
+                      {isLookingUp ? "Looking up..." : "Lookup"}
+                    </Button>
+                  </div>
+                  <FormDescription>
+                    Enter your Ethiopian Airlines flight number to auto-fill details
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
