@@ -152,6 +152,15 @@ export function TravelerForm() {
   });
 
   function onSubmit(values: TripFormValues) {
+    if (!values.flightNumber || !values.airline) {
+      toast({
+        title: "Flight lookup required",
+        description: "Please enter a flight number and perform lookup before submitting",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setSubmitting(true);
     
     // Create a copy of values with proper date conversions
@@ -171,6 +180,48 @@ export function TravelerForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+            <FormField
+              control={form.control}
+              name="airline"
+              render={({ field }) => (
+                <FormItem className="sm:col-span-3">
+                  <FormLabel>Airline</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g. Ethiopian Airlines" {...field} disabled={isLookingUp} />
+                  </FormControl>
+                  <FormDescription>Will be populated after flight lookup</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="flightNumber"
+              render={({ field }) => (
+                <FormItem className="sm:col-span-3">
+                  <FormLabel>Flight Number*</FormLabel>
+                  <div className="flex space-x-2">
+                    <FormControl>
+                      <Input placeholder="e.g. ET501" {...field} disabled={isLookingUp} />
+                    </FormControl>
+                    <Button 
+                      type="button"
+                      variant="secondary"
+                      onClick={() => lookupFlight(field.value)}
+                      disabled={isLookingUp || !field.value}
+                    >
+                      {isLookingUp ? "Looking up..." : "Lookup"}
+                    </Button>
+                  </div>
+                  <FormDescription className="text-red-500">
+                    Enter Ethiopian Airlines flight number and click lookup to continue
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="departureAirport"
@@ -249,46 +300,7 @@ export function TravelerForm() {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="airline"
-              render={({ field }) => (
-                <FormItem className="sm:col-span-3">
-                  <FormLabel>Airline</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g. Ethiopian Airlines" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="flightNumber"
-              render={({ field }) => (
-                <FormItem className="sm:col-span-3">
-                  <FormLabel>Flight Number</FormLabel>
-                  <div className="flex space-x-2">
-                    <FormControl>
-                      <Input placeholder="e.g. ET501" {...field} />
-                    </FormControl>
-                    <Button 
-                      type="button"
-                      variant="secondary"
-                      onClick={() => lookupFlight(field.value)}
-                      disabled={isLookingUp || !field.value}
-                    >
-                      {isLookingUp ? "Looking up..." : "Lookup"}
-                    </Button>
-                  </div>
-                  <FormDescription>
-                    Enter your Ethiopian Airlines flight number to auto-fill details
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            
 
             <FormField
               control={form.control}
