@@ -197,13 +197,31 @@ export function TravelerForm() {
       return;
     }
 
-    const formattedValues = {
-      ...values,
-      departureDate: departureDate.toISOString(),
-      arrivalDate: arrivalDate.toISOString(),
-    };
-    
-    tripMutation.mutate(formattedValues);
+    try {
+      const formattedValues = {
+        ...values,
+        departureDate: new Date(values.departureDate).toISOString(),
+        arrivalDate: new Date(values.arrivalDate).toISOString(),
+      };
+
+      if (isNaN(new Date(formattedValues.departureDate).getTime()) || 
+          isNaN(new Date(formattedValues.arrivalDate).getTime())) {
+        toast({
+          title: "Invalid date format",
+          description: "Please ensure dates are in valid format",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      tripMutation.mutate(formattedValues);
+    } catch (error) {
+      toast({
+        title: "Form submission error",
+        description: error instanceof Error ? error.message : "Failed to submit form",
+        variant: "destructive",
+      });
+    }
   }
 
   return (
