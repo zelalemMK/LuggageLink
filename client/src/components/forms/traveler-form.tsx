@@ -148,6 +148,8 @@ export function TravelerForm() {
       });
       form.reset(defaultValues);
       queryClient.invalidateQueries({ queryKey: ["/api/trips"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/trips/user"] });
+      setLocation("/dashboard");
     },
     onError: (error) => {
       toast({
