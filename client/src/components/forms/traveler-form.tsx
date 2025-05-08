@@ -160,10 +160,10 @@ export function TravelerForm() {
   });
 
   function onSubmit(values: TripFormValues) {
-    if (!values.ticketNumber || !values.lastName) {
+    if (!values.departureAirport) {
       toast({
-        title: "Flight lookup required",
-        description: "Please enter ticket number and last name before submitting",
+        title: "Flight lookup required", 
+        description: "Please perform flight lookup before submitting",
         variant: "destructive",
       });
       return;
