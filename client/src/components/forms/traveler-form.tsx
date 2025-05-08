@@ -214,8 +214,8 @@ export function TravelerForm() {
 
       const formattedValues = {
         ...values,
-        departureDate: formatDateForInput(departureDateObj),
-        arrivalDate: formatDateForInput(arrivalDateObj),
+        departureDate: departureDateObj.toISOString(),
+        arrivalDate: arrivalDateObj.toISOString(),
         availableWeight: Number(values.availableWeight),
         pricePerKg: Number(values.pricePerKg)
       };
