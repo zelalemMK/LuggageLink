@@ -286,9 +286,6 @@ export function TravelerForm() {
                       placeholder="Search for airports (e.g. JFK, LAX)"
                     />
                   </FormControl>
-                  <FormDescription>
-                    Enter the airport code or name where you'll depart from
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
