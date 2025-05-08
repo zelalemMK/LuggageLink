@@ -127,15 +127,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
     
     try {
-      // Parse dates from ISO strings to Date objects
+      // First validate the raw input
+      const validatedData = insertTripSchema.parse(req.body);
+      
+      // Then convert the validated dates to Date objects
       const tripData = {
-        ...req.body,
-        departureDate: new Date(req.body.departureDate),
-        arrivalDate: new Date(req.body.arrivalDate)
+        ...validatedData,
+        departureDate: new Date(validatedData.departureDate),
+        arrivalDate: new Date(validatedData.arrivalDate)
       };
       
-      const validatedData = insertTripSchema.parse(tripData);
-      const trip = await storage.createTrip(validatedData, req.user!.id);
+      const trip = await storage.createTrip(tripData, req.user!.id);
       res.status(201).json(trip);
     } catch (error) {
       if (error instanceof ZodError) {
