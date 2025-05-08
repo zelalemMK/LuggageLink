@@ -83,10 +83,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const trips = await storage.getTripsByUserId(userId);
       
-      if (trips.length === 0) {
-        return res.status(404).json({ message: "Trip not found" });
-      }
-      
+      // Return the trips array even if it's empty
       res.json(trips);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch trips" });
@@ -222,10 +219,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const packages = await storage.getPackagesByUserId(userId);
       
-      if (packages.length === 0) {
-        return res.status(404).json({ message: "Package not found" });
-      }
-      
+      // Return the packages array even if it's empty
       res.json(packages);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch packages" });
