@@ -93,9 +93,11 @@ export default function AuthPage() {
           <div className="flex-1">
             <div className="max-w-md w-full mx-auto">
               <div className="text-center mb-8">
-                <h2 className="text-3xl font-extrabold text-gray-900">
-                  LuggageLink
-                </h2>
+                <Link href="/">
+                  <h2 className="text-3xl font-extrabold text-gray-900 hover:text-primary cursor-pointer">
+                    LuggageLink
+                  </h2>
+                </Link>
                 <p className="mt-2 text-sm text-gray-600">
                   {activeTab === "login" ? "Sign in to your account" : "Create a new account"}
                 </p>
