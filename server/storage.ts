@@ -185,8 +185,8 @@ export class MemStorage implements IStorage {
     let trips = Array.from(this.trips.values()).filter(trip => trip.isActive);
     
     if (filters) {
-      if (filters.departureCity) {
-        trips = trips.filter(trip => trip.departureCity.toLowerCase().includes(filters.departureCity!.toLowerCase()));
+      if (filters.departureAirport) {
+        trips = trips.filter(trip => trip.departureAirport.toLowerCase().includes(filters.departureAirport!.toLowerCase()));
       }
       if (filters.destinationCity) {
         trips = trips.filter(trip => trip.destinationCity.toLowerCase().includes(filters.destinationCity!.toLowerCase()));

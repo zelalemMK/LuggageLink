@@ -29,7 +29,7 @@ export const users = pgTable("users", {
 export const trips = pgTable("trips", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull().references(() => users.id),
-  departureCity: text("departure_city").notNull(),
+  departureAirport: text("departure_airport").notNull(),
   destinationCity: text("destination_city").notNull(),
   departureDate: timestamp("departure_date").notNull(),
   arrivalDate: timestamp("arrival_date").notNull(),

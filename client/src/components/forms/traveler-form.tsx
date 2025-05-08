@@ -53,7 +53,7 @@ export function TravelerForm() {
 
   // Default values for the form
   const defaultValues: Partial<TripFormValues> = {
-    departureCity: "",
+    departureAirport: "",
     destinationCity: "Addis Ababa",
     departureDate: formatDateForInput(new Date()),
     arrivalDate: formatDateForInput(new Date(Date.now() + 86400000)), // Tomorrow
@@ -111,13 +111,16 @@ export function TravelerForm() {
           <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
             <FormField
               control={form.control}
-              name="departureCity"
+              name="departureAirport"
               render={({ field }) => (
                 <FormItem className="sm:col-span-3">
-                  <FormLabel>Departure City</FormLabel>
+                  <FormLabel>Departure Airport</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. New York, USA" {...field} />
+                    <Input placeholder="e.g. JFK, LAX" {...field} />
                   </FormControl>
+                  <FormDescription>
+                    Enter the airport code or name where you'll depart from
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
