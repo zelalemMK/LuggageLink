@@ -67,7 +67,6 @@ export function TravelerForm() {
     destinationCity: "Addis Ababa",
     departureDate: formatDateForInput(new Date()),
     arrivalDate: formatDateForInput(new Date(Date.now() + 86400000)), // Tomorrow
-    airline: "",
     ticketNumber: "",
     lastName: "",
     availableWeight: 5,
@@ -85,14 +84,11 @@ export function TravelerForm() {
       // This is just an example showing Ethiopian Airlines flights
       if (ticketNumber.length >= 6) {
         const flightInfo = {
-          airline: "Ethiopian Airlines",
           departureAirport: "JFK", // This would come from API
           destinationCity: "Addis Ababa",
           departureDate: new Date(), // This would come from API
           arrivalDate: new Date(Date.now() + 86400000), // This would come from API
         };
-
-        form.setValue("airline", flightInfo.airline);
         form.setValue("departureAirport", flightInfo.departureAirport);
         form.setValue("destinationCity", flightInfo.destinationCity);
         form.setValue("departureDate", formatDateForInput(flightInfo.departureDate));
@@ -153,10 +149,10 @@ export function TravelerForm() {
   });
 
   function onSubmit(values: TripFormValues) {
-    if (!values.flightNumber || !values.airline) {
+    if (!values.ticketNumber || !values.lastName) {
       toast({
         title: "Flight lookup required",
-        description: "Please enter a flight number and perform lookup before submitting",
+        description: "Please enter ticket number and last name before submitting",
         variant: "destructive",
       });
       return;
@@ -181,21 +177,6 @@ export function TravelerForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-            <FormField
-              control={form.control}
-              name="airline"
-              render={({ field }) => (
-                <FormItem className="sm:col-span-6">
-                  <FormLabel>Airline</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g. Ethiopian Airlines" {...field} disabled={isLookingUp} />
-                  </FormControl>
-                  <FormDescription>Will be populated after flight lookup</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             <FormField
               control={form.control}
               name="ticketNumber"
