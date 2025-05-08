@@ -198,10 +198,15 @@ export function TravelerForm() {
     }
 
     try {
-      const departureDate = new Date(values.departureDate);
-      const arrivalDate = new Date(values.arrivalDate);
+      const formattedValues = {
+        ...values,
+        departureDate: new Date(values.departureDate),
+        arrivalDate: new Date(values.arrivalDate),
+        availableWeight: Number(values.availableWeight),
+        pricePerKg: Number(values.pricePerKg)
+      };
 
-      if (isNaN(departureDate.getTime()) || isNaN(arrivalDate.getTime())) {
+      if (isNaN(formattedValues.departureDate.getTime()) || isNaN(formattedValues.arrivalDate.getTime())) {
         toast({
           title: "Invalid date format",
           description: "Please ensure dates are in valid format",
@@ -210,17 +215,7 @@ export function TravelerForm() {
         return;
       }
 
-      const formattedValues = {
-        ...values,
-        departureDate: departureDate.toISOString(),
-        arrivalDate: arrivalDate.toISOString(),
-      };
-      
-      tripMutation.mutate({
-        ...formattedValues,
-        departureDate,
-        arrivalDate
-      });
+      tripMutation.mutate(formattedValues);
     } catch (error) {
       toast({
         title: "Form submission error",
