@@ -1,3 +1,4 @@
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -36,16 +37,23 @@ export function PackagesFilter({ onApplyFilters }: PackagesFilterProps) {
   const form = useForm<PackagesFilterFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      departureCity: "",
-      destinationCity: "",
+      departureCity: "any",
+      destinationCity: "any",
       deliveryDate: "",
-      packageWeight: "",
-      packageType: "",
+      packageWeight: "any",
+      packageType: "any",
     },
   });
 
   function onSubmit(values: PackagesFilterFormValues) {
-    onApplyFilters(values);
+    const filters = { ...values };
+    // Convert "any" back to empty string for API
+    Object.keys(filters).forEach((key) => {
+      if (filters[key as keyof PackagesFilterFormValues] === "any") {
+        filters[key as keyof PackagesFilterFormValues] = "";
+      }
+    });
+    onApplyFilters(filters);
   }
 
   return (
@@ -71,12 +79,12 @@ export function PackagesFilter({ onApplyFilters }: PackagesFilterProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="">Any</SelectItem>
-                      <SelectItem value="New York">New York</SelectItem>
-                      <SelectItem value="Washington, DC">Washington, DC</SelectItem>
-                      <SelectItem value="London">London</SelectItem>
-                      <SelectItem value="Toronto">Toronto</SelectItem>
-                      <SelectItem value="Dubai">Dubai</SelectItem>
+                      <SelectItem value="any">Any City</SelectItem>
+                      <SelectItem value="new-york">New York</SelectItem>
+                      <SelectItem value="washington-dc">Washington, DC</SelectItem>
+                      <SelectItem value="london">London</SelectItem>
+                      <SelectItem value="toronto">Toronto</SelectItem>
+                      <SelectItem value="dubai">Dubai</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormItem>
@@ -99,12 +107,12 @@ export function PackagesFilter({ onApplyFilters }: PackagesFilterProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="">Any</SelectItem>
-                      <SelectItem value="Addis Ababa">Addis Ababa</SelectItem>
-                      <SelectItem value="Dire Dawa">Dire Dawa</SelectItem>
-                      <SelectItem value="Bahir Dar">Bahir Dar</SelectItem>
-                      <SelectItem value="Hawassa">Hawassa</SelectItem>
-                      <SelectItem value="Mek'ele">Mek'ele</SelectItem>
+                      <SelectItem value="any">Any City</SelectItem>
+                      <SelectItem value="addis-ababa">Addis Ababa</SelectItem>
+                      <SelectItem value="dire-dawa">Dire Dawa</SelectItem>
+                      <SelectItem value="bahir-dar">Bahir Dar</SelectItem>
+                      <SelectItem value="hawassa">Hawassa</SelectItem>
+                      <SelectItem value="mekele">Mek'ele</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormItem>
@@ -140,7 +148,7 @@ export function PackagesFilter({ onApplyFilters }: PackagesFilterProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="">Any</SelectItem>
+                      <SelectItem value="any">Any Weight</SelectItem>
                       <SelectItem value="1">Under 1 kg</SelectItem>
                       <SelectItem value="3">1-3 kg</SelectItem>
                       <SelectItem value="5">3-5 kg</SelectItem>
@@ -168,13 +176,13 @@ export function PackagesFilter({ onApplyFilters }: PackagesFilterProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="">Any</SelectItem>
-                      <SelectItem value="Documents">Documents</SelectItem>
-                      <SelectItem value="Electronics">Electronics</SelectItem>
-                      <SelectItem value="Clothing">Clothing</SelectItem>
-                      <SelectItem value="Medications">Medications</SelectItem>
-                      <SelectItem value="Food Items">Food Items</SelectItem>
-                      <SelectItem value="Other">Other</SelectItem>
+                      <SelectItem value="any">Any Type</SelectItem>
+                      <SelectItem value="documents">Documents</SelectItem>
+                      <SelectItem value="electronics">Electronics</SelectItem>
+                      <SelectItem value="clothing">Clothing</SelectItem>
+                      <SelectItem value="medications">Medications</SelectItem>
+                      <SelectItem value="food">Food Items</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormItem>
