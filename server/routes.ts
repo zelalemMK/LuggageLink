@@ -127,8 +127,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
     
     try {
-      const tripData = insertTripSchema.parse(req.body);
-      const trip = await storage.createTrip(tripData, req.user!.id);
+      // Parse dates from ISO strings to Date objects
+      const tripData = {
+        ...req.body,
+        departureDate: new Date(req.body.departureDate),
+        arrivalDate: new Date(req.body.arrivalDate)
+      };
+      
+      const validatedData = insertTripSchema.parse(tripData);
+      const trip = await storage.createTrip(validatedData, req.user!.id);
       res.status(201).json(trip);
     } catch (error) {
       if (error instanceof ZodError) {
