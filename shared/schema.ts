@@ -42,30 +42,7 @@ export const trips = pgTable("trips", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
-// Add custom refinement for date validation
-export const insertTripSchema = createInsertSchema(trips).omit({
-  id: true,
-  userId: true,
-  isActive: true,
-  createdAt: true
-}).extend({
-  departureDate: z.string().refine((date) => {
-    try {
-      new Date(date).toISOString();
-      return true;
-    } catch {
-      return false;
-    }
-  }, "Invalid date format"),
-  arrivalDate: z.string().refine((date) => {
-    try {
-      new Date(date).toISOString();
-      return true;
-    } catch {
-      return false;
-    }
-  }, "Invalid date format")
-});
+// We'll remove this duplicate declaration as it conflicts with the one below
 
 // Package schema
 export const packages = pgTable("packages", {
@@ -137,6 +114,18 @@ export const insertTripSchema = createInsertSchema(trips).omit({
   userId: true,
   isActive: true,
   createdAt: true
+}).extend({
+  departureAirport: z.string()
+    .min(3, "Airport code must be at least 3 characters")
+    .refine((value) => /^([A-Z]{3}|\w+[\w\s-]*\s*(international|airport|intl).*)$/i.test(value), {
+      message: "Please enter a valid airport code (e.g., JFK, LAX) or full airport name",
+    }),
+  departureDate: z.coerce.date({
+    errorMap: () => ({ message: "Please enter a valid departure date" }),
+  }),
+  arrivalDate: z.coerce.date({
+    errorMap: () => ({ message: "Please enter a valid arrival date" }),
+  })
 });
 
 export const insertPackageSchema = createInsertSchema(packages).omit({

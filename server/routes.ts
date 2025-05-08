@@ -1,7 +1,7 @@
 import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { WebSocketServer } from "ws";
+import { WebSocketServer, WebSocket } from "ws";
 import { setupAuth } from "./auth";
 import { insertTripSchema, insertPackageSchema, insertDeliverySchema, insertMessageSchema, insertReviewSchema } from "@shared/schema";
 import { ZodError } from "zod";
@@ -16,6 +16,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Set up WebSocket for real-time messaging
   const wss = new WebSocketServer({ server: httpServer, path: '/ws' });
   
+  // WebSocket is already imported at the top of the file
   wss.on('connection', (ws) => {
     ws.on('message', (message) => {
       // Broadcast messages to all clients
