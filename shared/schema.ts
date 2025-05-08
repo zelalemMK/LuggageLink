@@ -42,6 +42,31 @@ export const trips = pgTable("trips", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Add custom refinement for date validation
+export const insertTripSchema = createInsertSchema(trips).omit({
+  id: true,
+  userId: true,
+  isActive: true,
+  createdAt: true
+}).extend({
+  departureDate: z.string().refine((date) => {
+    try {
+      new Date(date).toISOString();
+      return true;
+    } catch {
+      return false;
+    }
+  }, "Invalid date format"),
+  arrivalDate: z.string().refine((date) => {
+    try {
+      new Date(date).toISOString();
+      return true;
+    } catch {
+      return false;
+    }
+  }, "Invalid date format")
+});
+
 // Package schema
 export const packages = pgTable("packages", {
   id: serial("id").primaryKey(),
