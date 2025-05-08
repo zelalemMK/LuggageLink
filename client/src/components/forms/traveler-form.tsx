@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useLocation } from "wouter";
 import { z } from "zod";
+import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -62,6 +63,7 @@ type TripFormValues = z.infer<typeof formSchema>;
 
 export function TravelerForm() {
   const { toast } = useToast();
+  const { user } = useAuth();
   const [submitting, setSubmitting] = useState(false);
   const [isLookingUp, setIsLookingUp] = useState(false);
   const [location, setLocation] = useLocation(); // Added useLocation hook
@@ -167,6 +169,16 @@ export function TravelerForm() {
   });
 
   function onSubmit(values: TripFormValues) {
+    if (!user?.verificationStatus?.idVerified) {
+      toast({
+        title: "ID Verification Required",
+        description: "Please verify your ID in your profile before posting a trip",
+        variant: "destructive",
+      });
+      setLocation("/verification");
+      return;
+    }
+
     if (!values.departureAirport) {
       toast({
         title: "Flight lookup required", 
