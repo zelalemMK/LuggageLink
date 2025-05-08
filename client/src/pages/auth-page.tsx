@@ -11,7 +11,6 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  FormDescription,
 } from "@/components/ui/form";
 import {
   Card,
@@ -64,7 +63,6 @@ export default function AuthPage() {
       password: "",
       firstName: "",
       lastName: "",
-      idDocument: null, // Add default value for idDocument
     },
   });
 
@@ -275,32 +273,6 @@ export default function AuthPage() {
                                     {...field}
                                   />
                                 </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={registerForm.control}
-                            name="idDocument"
-                            render={({ field: { value, onChange, ...field } }) => (
-                              <FormItem>
-                                <FormLabel>Government-issued ID</FormLabel>
-                                <FormControl>
-                                  <Input
-                                    type="file"
-                                    accept="image/*,.pdf"
-                                    onChange={(e) => {
-                                      const file = e.target.files?.[0];
-                                      if (file) {
-                                        onChange(file);
-                                      }
-                                    }}
-                                    {...field}
-                                  />
-                                </FormControl>
-                                <FormDescription>
-                                  Please upload a clear photo or scan of your government-issued ID
-                                </FormDescription>
                                 <FormMessage />
                               </FormItem>
                             )}

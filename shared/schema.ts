@@ -106,8 +106,7 @@ export const insertUserSchema = createInsertSchema(users).omit({
   rating: true,
   reviewCount: true,
   isVerified: true,
-}).extend({
-  idDocument: z.instanceof(File, { message: "Government-issued ID is required" })
+  verificationStatus: true
 });
 
 export const insertTripSchema = createInsertSchema(trips).omit({
