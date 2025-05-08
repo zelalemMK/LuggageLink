@@ -212,11 +212,15 @@ export function TravelerForm() {
 
       const formattedValues = {
         ...values,
-        departureDate,
-        arrivalDate,
+        departureDate: departureDate.toISOString(),
+        arrivalDate: arrivalDate.toISOString(),
       };
       
-      tripMutation.mutate(formattedValues);
+      tripMutation.mutate({
+        ...formattedValues,
+        departureDate,
+        arrivalDate
+      });
     } catch (error) {
       toast({
         title: "Form submission error",
