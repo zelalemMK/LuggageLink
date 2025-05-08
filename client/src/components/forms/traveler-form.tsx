@@ -37,6 +37,7 @@ const airportCodeRegex = /^([A-Z]{3}|\w+[\w\s-]*\s*(international|airport|intl).
 const formSchema = insertTripSchema.extend({
   ticketNumber: z.string().optional(),
   lastName: z.string().optional(),
+  ticketPhoto: z.instanceof(File).optional(),
   departureAirport: z.string()
     .min(3, "Airport code must be at least 3 characters")
     .refine((value) => airportCodeRegex.test(value), {
@@ -265,6 +266,34 @@ export function TravelerForm() {
                   <FormControl>
                     <Input placeholder="e.g. 071234567890" {...field} disabled={isLookingUp} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="ticketPhoto"
+              render={({ field: { value, onChange, ...field } }) => (
+                <FormItem className="sm:col-span-3">
+                  <FormLabel>Ticket Photo</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      capture="environment"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          onChange(file);
+                        }
+                      }}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Take a photo of your ticket or upload an existing one
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
