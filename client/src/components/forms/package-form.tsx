@@ -50,15 +50,15 @@ export function PackageForm() {
   const defaultValues: Partial<PackageFormValues> = {
     senderCity: "",
     receiverCity: "Addis Ababa",
-    packageType: "Clothing",
-    weight: 2,
+    packageType: "Full Luggage",
+    weight: 20,
     dimensions: {
-      length: 20,
-      width: 20,
-      height: 10,
+      length: 55,
+      width: 40,
+      height: 25,
     },
     deliveryDeadline: "",
-    offeredPayment: 50,
+    offeredPayment: 200,
     description: "",
     terms: false,
   };
@@ -102,7 +102,8 @@ export function PackageForm() {
 
   return (
     <div>
-      <h3 className="text-xl font-semibold text-gray-900 mb-6">Post a Package to Send to Ethiopia</h3>
+      <h3 className="text-xl font-semibold text-gray-900 mb-2">Post a Package to Send to Ethiopia</h3>
+      <p className="text-gray-600 mb-6">Full luggage is our most popular option - send an entire suitcase to Ethiopia and save on shipping costs!</p>
       
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -166,6 +167,8 @@ export function PackageForm() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
+                      <SelectItem value="Full Luggage">Full Luggage (Standard Suitcase)</SelectItem>
+                      <SelectItem value="Half Luggage">Half Luggage (Shared Suitcase)</SelectItem>
                       <SelectItem value="Documents">Documents</SelectItem>
                       <SelectItem value="Electronics">Electronics</SelectItem>
                       <SelectItem value="Clothing">Clothing</SelectItem>

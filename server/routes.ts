@@ -506,7 +506,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
           conversations[otherUserId] = {
             user: {
               id: otherUser.id,
-              username: otherUser.username,
               firstName: otherUser.firstName,
               lastName: otherUser.lastName,
               profileImage: otherUser.profileImage
@@ -573,7 +572,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         messages,
         user: {
           id: otherUser.id,
-          username: otherUser.username,
           firstName: otherUser.firstName,
           lastName: otherUser.lastName,
           profileImage: otherUser.profileImage
@@ -626,7 +624,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
           ...review,
           reviewer: reviewer ? {
             id: reviewer.id,
-            username: reviewer.username,
             firstName: reviewer.firstName,
             lastName: reviewer.lastName,
             profileImage: reviewer.profileImage
