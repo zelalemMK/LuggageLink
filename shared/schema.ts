@@ -120,12 +120,16 @@ export const insertTripSchema = createInsertSchema(trips).omit({
     .refine((value) => /^([A-Z]{3}|\w+[\w\s-]*\s*(international|airport|intl).*)$/i.test(value), {
       message: "Please enter a valid airport code (e.g., JFK, LAX) or full airport name",
     }),
-  departureDate: z.coerce.date({
-    errorMap: () => ({ message: "Please enter a valid departure date" }),
-  }),
-  arrivalDate: z.coerce.date({
-    errorMap: () => ({ message: "Please enter a valid arrival date" }),
-  })
+  departureDate: z.coerce.date().refine((date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date >= today;
+  }, "Departure date must be today or in the future"),
+  arrivalDate: z.coerce.date().refine((date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date >= today;
+  }, "Arrival date must be today or in the future"),
 });
 
 export const insertPackageSchema = createInsertSchema(packages).omit({
