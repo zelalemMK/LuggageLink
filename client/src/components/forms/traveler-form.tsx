@@ -200,22 +200,25 @@ export function TravelerForm() {
     }
 
     try {
-      const formattedValues = {
-        ...values,
-        departureDate: formatDateForInput(new Date(values.departureDate)),
-        arrivalDate: formatDateForInput(new Date(values.arrivalDate)), 
-        availableWeight: Number(values.availableWeight),
-        pricePerKg: Number(values.pricePerKg)
-      };
+      const departureDateObj = new Date(values.departureDate);
+      const arrivalDateObj = new Date(values.arrivalDate);
 
-      if (isNaN(formattedValues.departureDate.getTime()) || isNaN(formattedValues.arrivalDate.getTime())) {
+      if (isNaN(departureDateObj.getTime()) || isNaN(arrivalDateObj.getTime())) {
         toast({
-          title: "Invalid date format",
+          title: "Invalid date format", 
           description: "Please ensure dates are in valid format",
           variant: "destructive",
         });
         return;
       }
+
+      const formattedValues = {
+        ...values,
+        departureDate: formatDateForInput(departureDateObj),
+        arrivalDate: formatDateForInput(arrivalDateObj),
+        availableWeight: Number(values.availableWeight),
+        pricePerKg: Number(values.pricePerKg)
+      };
 
       tripMutation.mutate(formattedValues);
     } catch (error) {
