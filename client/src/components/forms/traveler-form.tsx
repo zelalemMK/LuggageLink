@@ -406,6 +406,7 @@ export function TravelerForm() {
                       placeholder="Include any restrictions (e.g., no electronics, no food items) or other important information."
                       className="resize-none"
                       {...field}
+                      value={field.value ?? ''}
                     />
                   </FormControl>
                   <FormMessage />

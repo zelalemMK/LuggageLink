@@ -96,7 +96,7 @@ export function TravelersFilter({ onApplyFilters }: TravelersFilterProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="any">Any</SelectItem>
+                      <SelectItem value="all">Any</SelectItem>
                       <SelectItem value="Addis Ababa">Addis Ababa</SelectItem>
                       <SelectItem value="Dire Dawa">Dire Dawa</SelectItem>
                       <SelectItem value="Bahir Dar">Bahir Dar</SelectItem>
@@ -150,7 +150,7 @@ export function TravelersFilter({ onApplyFilters }: TravelersFilterProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="any">Any</SelectItem>
+                      <SelectItem value="all">Any</SelectItem>
                       <SelectItem value="1">1 kg</SelectItem>
                       <SelectItem value="2">2 kg</SelectItem>
                       <SelectItem value="5">5 kg</SelectItem>
@@ -238,7 +238,7 @@ export function TravelersFilter({ onApplyFilters }: TravelersFilterProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="any">Any</SelectItem>
+                      <SelectItem value="all">Any</SelectItem>
                       <SelectItem value="3">3+ stars</SelectItem>
                       <SelectItem value="4">4+ stars</SelectItem>
                       <SelectItem value="4.5">4.5+ stars</SelectItem>
