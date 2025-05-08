@@ -23,7 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/hooks/use-auth";
-import { Redirect } from "wouter";
+import { Link, Redirect } from "wouter";
 import { Helmet } from "react-helmet";
 
 // Login schema

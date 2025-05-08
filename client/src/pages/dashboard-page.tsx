@@ -352,7 +352,7 @@ export default function DashboardPage() {
                           <TabsTrigger value="asCarrier">As Carrier</TabsTrigger>
                           <TabsTrigger value="asSender">As Sender</TabsTrigger>
                         </TabsList>
-                        
+
                         <TabsContent value="asCarrier" className="space-y-4">
                           {getDeliveriesByRole('traveler').length > 0 ? (
                             <div className="grid gap-4 md:grid-cols-2">
@@ -453,7 +453,7 @@ export default function DashboardPage() {
                             </Card>
                           )}
                         </TabsContent>
-                        
+
                         <TabsContent value="asSender" className="space-y-4">
                           {getDeliveriesByRole('sender').length > 0 ? (
                             <div className="grid gap-4 md:grid-cols-2">
