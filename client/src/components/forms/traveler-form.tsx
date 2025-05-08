@@ -34,6 +34,8 @@ const airportCodeRegex = /^([A-Z]{3}|\w+[\w\s-]*\s*(international|airport|intl).
 
 // Extend the insertTripSchema to add validation
 const formSchema = insertTripSchema.extend({
+  ticketNumber: z.string().optional(),
+  lastName: z.string().optional(),
   departureAirport: z.string()
     .min(3, "Airport code must be at least 3 characters")
     .refine((value) => airportCodeRegex.test(value), {
