@@ -58,11 +58,10 @@ export default function TravelersPage() {
   const handleContactClick = (traveler: any) => {
     if (!user) {
       toast({
-        title: "Authentication required",
-        description: "Please sign in to contact travelers",
-        variant: "destructive",
+        title: "Authentication required", 
+        description: "Please sign in to send packages with travelers",
       });
-      setLocation("/auth");
+      setLocation("/auth?redirect=/travelers");
       return;
     }
 
