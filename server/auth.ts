@@ -47,17 +47,14 @@ export function setupAuth(app: Express) {
   app.use(passport.session());
 
   passport.use(
-    new LocalStrategy(async (username, password, done) => {
+    new LocalStrategy({
+      usernameField: 'email',
+      passwordField: 'password'
+    },
+    async (email, password, done) => {
       try {
-        // Check if username is an email
-        const isEmail = username.includes("@");
-        
-        let user;
-        if (isEmail) {
-          user = await storage.getUserByEmail(username);
-        } else {
-          user = await storage.getUserByUsername(username);
-        }
+        // Always use email now that we've removed username
+        const user = await storage.getUserByEmail(email);
         
         if (!user || !(await comparePasswords(password, user.password))) {
           return done(null, false, { message: "Invalid credentials" });
@@ -78,14 +75,10 @@ export function setupAuth(app: Express) {
 
   app.post("/api/register", async (req, res, next) => {
     try {
+      // Parse with validation
       const userData = insertUserSchema.parse(req.body);
       
-      // Check if username or email already exists
-      const existingUsername = await storage.getUserByUsername(userData.username);
-      if (existingUsername) {
-        return res.status(400).json({ message: "Username already exists" });
-      }
-      
+      // Check if email already exists
       const existingEmail = await storage.getUserByEmail(userData.email);
       if (existingEmail) {
         return res.status(400).json({ message: "Email already exists" });

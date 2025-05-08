@@ -115,8 +115,9 @@ export class MemStorage implements IStorage {
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
+    // Since we're removing username field, we'll use email for authentication
     return Array.from(this.users.values()).find(
-      (user) => user.username.toLowerCase() === username.toLowerCase()
+      (user) => user.email.toLowerCase() === username.toLowerCase()
     );
   }
 
