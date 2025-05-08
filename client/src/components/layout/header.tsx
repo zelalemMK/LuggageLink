@@ -163,7 +163,7 @@ export function Header() {
               </Link>
             ))}
           </div>
-          
+
           {user ? (
             <div className="pt-4 pb-3 border-t border-gray-200">
               <div className="flex items-center px-4">

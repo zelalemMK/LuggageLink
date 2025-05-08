@@ -61,7 +61,7 @@ export function TravelersFilter({ onApplyFilters }: TravelersFilterProps) {
     <div className="w-full bg-white rounded-lg shadow mb-6 md:mb-0 h-fit sticky top-20">
       <div className="p-6">
         <h3 className="text-lg font-medium text-gray-900 mb-4">Filter Travelers</h3>
-        
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -79,7 +79,7 @@ export function TravelersFilter({ onApplyFilters }: TravelersFilterProps) {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="destinationCity"
@@ -96,7 +96,7 @@ export function TravelersFilter({ onApplyFilters }: TravelersFilterProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="">Any</SelectItem>
+                      <SelectItem value="any">Any</SelectItem>
                       <SelectItem value="Addis Ababa">Addis Ababa</SelectItem>
                       <SelectItem value="Dire Dawa">Dire Dawa</SelectItem>
                       <SelectItem value="Bahir Dar">Bahir Dar</SelectItem>
@@ -107,7 +107,7 @@ export function TravelersFilter({ onApplyFilters }: TravelersFilterProps) {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="departureDate"
@@ -120,7 +120,7 @@ export function TravelersFilter({ onApplyFilters }: TravelersFilterProps) {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="returnDate"
@@ -133,7 +133,7 @@ export function TravelersFilter({ onApplyFilters }: TravelersFilterProps) {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="minWeight"
@@ -150,7 +150,7 @@ export function TravelersFilter({ onApplyFilters }: TravelersFilterProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="">Any</SelectItem>
+                      <SelectItem value="any">Any</SelectItem>
                       <SelectItem value="1">1 kg</SelectItem>
                       <SelectItem value="2">2 kg</SelectItem>
                       <SelectItem value="5">5 kg</SelectItem>
@@ -161,7 +161,7 @@ export function TravelersFilter({ onApplyFilters }: TravelersFilterProps) {
                 </FormItem>
               )}
             />
-            
+
             <div>
               <FormLabel>Verification Level</FormLabel>
               <div className="mt-1 space-y-2">
@@ -221,7 +221,7 @@ export function TravelersFilter({ onApplyFilters }: TravelersFilterProps) {
                 />
               </div>
             </div>
-            
+
             <FormField
               control={form.control}
               name="minRating"
@@ -238,7 +238,7 @@ export function TravelersFilter({ onApplyFilters }: TravelersFilterProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="">Any</SelectItem>
+                      <SelectItem value="any">Any</SelectItem>
                       <SelectItem value="3">3+ stars</SelectItem>
                       <SelectItem value="4">4+ stars</SelectItem>
                       <SelectItem value="4.5">4.5+ stars</SelectItem>
@@ -247,7 +247,7 @@ export function TravelersFilter({ onApplyFilters }: TravelersFilterProps) {
                 </FormItem>
               )}
             />
-            
+
             <Button type="submit" className="w-full">
               Apply Filters
             </Button>
