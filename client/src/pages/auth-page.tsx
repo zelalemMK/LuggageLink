@@ -257,35 +257,35 @@ export default function AuthPage() {
 
           {/* Right side: Hero section */}
           <div className="flex-1 hidden lg:block">
-            <div className="flex flex-col justify-center h-full p-8 bg-primary-600 text-white rounded-lg">
-              <h2 className="text-3xl font-bold mb-6">Send Packages to Ethiopia with Ease</h2>
-              <p className="text-lg mb-8">
+            <div className="flex flex-col justify-center h-full p-8 bg-primary-600 text-primary-50 rounded-lg">
+              <h2 className="text-3xl font-bold mb-6 text-white">Send Packages to Ethiopia with Ease</h2>
+              <p className="text-lg mb-8 text-primary-100">
                 Connect with travelers heading to Ethiopia and send your packages safely and affordably.
               </p>
               <ul className="space-y-4">
                 <li className="flex items-start">
-                  <svg className="h-6 w-6 text-primary-200 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="h-6 w-6 text-primary-100 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Verified travelers with space in their luggage</span>
+                  <span className="text-primary-50">Verified travelers with space in their luggage</span>
                 </li>
                 <li className="flex items-start">
-                  <svg className="h-6 w-6 text-primary-200 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="h-6 w-6 text-primary-100 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Secure payment through escrow system</span>
+                  <span className="text-primary-50">Secure payment through escrow system</span>
                 </li>
                 <li className="flex items-start">
-                  <svg className="h-6 w-6 text-primary-200 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="h-6 w-6 text-primary-100 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Track your package until delivery</span>
+                  <span className="text-primary-50">Track your package until delivery</span>
                 </li>
                 <li className="flex items-start">
-                  <svg className="h-6 w-6 text-primary-200 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="h-6 w-6 text-primary-100 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Save money compared to traditional shipping</span>
+                  <span className="text-primary-50">Save money compared to traditional shipping</span>
                 </li>
               </ul>
             </div>
