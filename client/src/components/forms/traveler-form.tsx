@@ -80,14 +80,25 @@ export function TravelerForm() {
     
     setIsLookingUp(true);
     try {
-      // Simulated flight lookup - in reality you would call an airline API
-      // This is just an example showing Ethiopian Airlines flights
+      // Temporary mock data for testing
       if (ticketNumber.length >= 6) {
+        // Mock different flights based on ticket number
+        const airports = ["JFK", "IAD", "LAX", "ORD", "BOS"];
+        const departureAirport = airports[parseInt(ticketNumber.slice(-1)) % airports.length];
+        
+        // Generate dates 2-7 days in future
+        const daysToAdd = 2 + (parseInt(ticketNumber.slice(-2)) % 5);
+        const departureDate = new Date();
+        departureDate.setDate(departureDate.getDate() + daysToAdd);
+        
+        const arrivalDate = new Date(departureDate);
+        arrivalDate.setHours(arrivalDate.getHours() + 15); // 15 hour flight
+        
         const flightInfo = {
-          departureAirport: "JFK", // This would come from API
+          departureAirport,
           destinationCity: "Addis Ababa",
-          departureDate: new Date(), // This would come from API
-          arrivalDate: new Date(Date.now() + 86400000), // This would come from API
+          departureDate,
+          arrivalDate,
         };
         form.setValue("departureAirport", flightInfo.departureAirport);
         form.setValue("destinationCity", flightInfo.destinationCity);
