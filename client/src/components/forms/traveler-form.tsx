@@ -27,9 +27,18 @@ import { insertTripSchema } from "@shared/schema";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useMutation } from "@tanstack/react-query";
 import { formatDateForInput } from "@/lib/utils";
+import { AirportInput } from "@/components/ui/airport-input";
+
+// Regular expression to validate IATA airport codes (3 uppercase letters) or full airport names
+const airportCodeRegex = /^([A-Z]{3}|\w+[\w\s-]*\s*(international|airport|intl).*)$/i;
 
 // Extend the insertTripSchema to add validation
 const formSchema = insertTripSchema.extend({
+  departureAirport: z.string()
+    .min(3, "Airport code must be at least 3 characters")
+    .refine((value) => airportCodeRegex.test(value), {
+      message: "Please enter a valid airport code (e.g., JFK, LAX) or full airport name",
+    }),
   departureDate: z.string().refine((date) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -116,7 +125,11 @@ export function TravelerForm() {
                 <FormItem className="sm:col-span-3">
                   <FormLabel>Departure Airport</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. JFK, LAX" {...field} />
+                    <AirportInput 
+                      value={field.value}
+                      onChange={field.onChange}
+                      placeholder="Search for airports (e.g. JFK, LAX)"
+                    />
                   </FormControl>
                   <FormDescription>
                     Enter the airport code or name where you'll depart from
