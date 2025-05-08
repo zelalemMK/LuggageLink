@@ -108,7 +108,15 @@ export function TravelerForm() {
 
   function onSubmit(values: TripFormValues) {
     setSubmitting(true);
-    tripMutation.mutate(values);
+    
+    // Create a copy of values with proper date conversions
+    const formattedValues = {
+      ...values,
+      departureDate: new Date(values.departureDate),
+      arrivalDate: new Date(values.arrivalDate),
+    };
+    
+    tripMutation.mutate(formattedValues);
   }
 
   return (
