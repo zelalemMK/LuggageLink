@@ -139,9 +139,13 @@ export function TravelerForm() {
 
   const tripMutation = useMutation({
     mutationFn: async (data: TripFormValues) => {
-      // Remove the terms field as it's not part of the API schema
-      const { terms, ...tripData } = data;
-      const res = await apiRequest("POST", "/api/trips", tripData);
+      // Convert date strings to ISO format
+      const formattedData = {
+        ...data,
+        departureDate: new Date(data.departureDate).toISOString(),
+        arrivalDate: new Date(data.arrivalDate).toISOString()
+      };
+      const res = await apiRequest("POST", "/api/trips", formattedData);
       return res.json();
     },
     onSuccess: () => {
