@@ -7,13 +7,13 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plane, Package } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
-import { Redirect, useLocation, useNavigate } from "wouter";
+import { Redirect, useLocation } from "wouter";
 import { Helmet } from "react-helmet";
 
 export default function PostRequestPage() {
   const { user } = useAuth();
   const [formType, setFormType] = useState<"trip" | "package">("trip");
-  const navigate = useNavigate();
+  const [, setLocation] = useLocation();
 
   // Redirect to auth page if not logged in
   if (!user) {
