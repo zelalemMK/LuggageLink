@@ -27,13 +27,12 @@ import { Helmet } from "react-helmet";
 
 // Login schema
 const loginSchema = z.object({
-  username: z.string().min(1, "Username or email is required"),
+  email: z.string().email("Invalid email address"),
   password: z.string().min(1, "Password is required"),
 });
 
 // Registration schema
 const registerSchema = z.object({
-  username: z.string().min(3, "Username must be at least 3 characters"),
   email: z.string().email("Invalid email address"),
   password: z.string().min(8, "Password must be at least 8 characters"),
   firstName: z.string().min(1, "First name is required"),
@@ -51,7 +50,7 @@ export default function AuthPage() {
   const loginForm = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
@@ -60,7 +59,6 @@ export default function AuthPage() {
   const registerForm = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      username: "",
       email: "",
       password: "",
       firstName: "",
@@ -122,12 +120,12 @@ export default function AuthPage() {
                         <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-4">
                           <FormField
                             control={loginForm.control}
-                            name="username"
+                            name="email"
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel>Username or Email</FormLabel>
+                                <FormLabel>Email</FormLabel>
                                 <FormControl>
-                                  <Input placeholder="Your username or email" {...field} />
+                                  <Input placeholder="Your email address" {...field} />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -219,19 +217,7 @@ export default function AuthPage() {
                               </FormItem>
                             )}
                           />
-                          <FormField
-                            control={registerForm.control}
-                            name="username"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Username</FormLabel>
-                                <FormControl>
-                                  <Input placeholder="Choose a username" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
+
                           <FormField
                             control={registerForm.control}
                             name="password"

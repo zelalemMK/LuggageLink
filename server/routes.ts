@@ -108,7 +108,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ...trip,
         user: user ? {
           id: user.id,
-          username: user.username,
+          email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
           profileImage: user.profileImage,
