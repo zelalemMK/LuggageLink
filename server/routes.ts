@@ -46,7 +46,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
           ...trip,
           user: user ? {
             id: user.id,
-            username: user.username,
             firstName: user.firstName,
             lastName: user.lastName,
             profileImage: user.profileImage,
@@ -59,6 +58,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }));
       
       res.json(tripsWithUserDetails);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch trips" });
+    }
+  });
+  
+  app.get("/api/trips/user/:userId?", async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+    
+    try {
+      let userId = req.user!.id;
+      
+      // If a userId is provided and it's not the current user's ID,
+      // verify the user exists
+      if (req.params.userId) {
+        userId = parseInt(req.params.userId);
+        const user = await storage.getUser(userId);
+        if (!user) {
+          return res.status(404).json({ message: "User not found" });
+        }
+      }
+      
+      const trips = await storage.getTripsByUserId(userId);
+      
+      if (trips.length === 0) {
+        return res.status(404).json({ message: "Trip not found" });
+      }
+      
+      res.json(trips);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch trips" });
     }
@@ -156,7 +185,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
           ...pkg,
           user: user ? {
             id: user.id,
-            username: user.username,
             firstName: user.firstName,
             lastName: user.lastName,
             profileImage: user.profileImage,
@@ -169,6 +197,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }));
       
       res.json(packagesWithUserDetails);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch packages" });
+    }
+  });
+  
+  app.get("/api/packages/user/:userId?", async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+    
+    try {
+      let userId = req.user!.id;
+      
+      // If a userId is provided and it's not the current user's ID,
+      // verify the user exists
+      if (req.params.userId) {
+        userId = parseInt(req.params.userId);
+        const user = await storage.getUser(userId);
+        if (!user) {
+          return res.status(404).json({ message: "User not found" });
+        }
+      }
+      
+      const packages = await storage.getPackagesByUserId(userId);
+      
+      if (packages.length === 0) {
+        return res.status(404).json({ message: "Package not found" });
+      }
+      
+      res.json(packages);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch packages" });
     }
@@ -189,7 +247,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ...pkg,
         user: user ? {
           id: user.id,
-          username: user.username,
           firstName: user.firstName,
           lastName: user.lastName,
           profileImage: user.profileImage,
@@ -269,7 +326,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
           package: pkg,
           sender: sender ? {
             id: sender.id,
-            username: sender.username,
             firstName: sender.firstName,
             lastName: sender.lastName,
             profileImage: sender.profileImage,
@@ -279,7 +335,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
           } : null,
           traveler: traveler ? {
             id: traveler.id,
-            username: traveler.username,
             firstName: traveler.firstName,
             lastName: traveler.lastName,
             profileImage: traveler.profileImage,
@@ -316,7 +371,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         package: pkg,
         sender: sender ? {
           id: sender.id,
-          username: sender.username,
           firstName: sender.firstName,
           lastName: sender.lastName,
           profileImage: sender.profileImage,
@@ -326,7 +380,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         } : null,
         traveler: traveler ? {
           id: traveler.id,
-          username: traveler.username,
           firstName: traveler.firstName,
           lastName: traveler.lastName,
           profileImage: traveler.profileImage,
