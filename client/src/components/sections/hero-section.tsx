@@ -23,14 +23,14 @@ export function HeroSection() {
             <div className="sm:text-center lg:text-left">
               <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
                 <span className="block xl:inline"></span>{" "}
-                <span className="block text-primary-500 xl:inline relative">
+                <span className="block text-primary-500 xl:inline relative h-[1.2em]">
                   <span
-                    className="absolute inset-0 animate-[fadeInOut_16s_ease-in-out_infinite]"
+                    className="absolute inset-0 animate-[fadeInOut_16s_ease-in-out_infinite] z-10"
                     style={{ fontFamily: "Nyala, serif" }}
                   >
                     ሻንጣ ወደ ኢትዮጵያ ላኩ
                   </span>
-                  <span className="animate-[fadeOutIn_16s_ease-in-out_infinite]">
+                  <span className="absolute inset-0 animate-[fadeOutIn_16s_ease-in-out_infinite]">
                     Send Luggage to Ethiopia
                   </span>
                 </span>
