@@ -52,7 +52,7 @@ export function HeroSection() {
       <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
         <img
           className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
-          src="https://pixabay.com/get/g7f9d1cde17a005f9f6266639ceaf505f1d1417474d54e9c18ec79c7e9c733f1d353be1635d9d33707b9dec9eb7f4711ad41314eb6a9812f50ea5c64c86f74bbd_1280.jpg" 
+          src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1000&q=80" 
           alt="Traveler at airport with luggage"
         />
       </div>
