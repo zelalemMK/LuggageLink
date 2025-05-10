@@ -23,8 +23,25 @@ export function HeroSection() {
             <div className="sm:text-center lg:text-left">
               <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
                 <span className="block xl:inline">Connect with travelers to</span>{" "}
-                <span className="block text-primary-600 xl:inline">send items to Ethiopia</span>
+                <span 
+                  className="block text-primary-600 xl:inline transition-opacity duration-500"
+                  style={{ 
+                    animation: 'fadeInOut 6s infinite',
+                    WebkitAnimation: 'fadeInOut 6s infinite'
+                  }}
+                >
+                  {new Date().getTime() % 6000 > 3000 
+                    ? "send items to Ethiopia"
+                    : "እቃዎን ወደ ኢትዮጵያ ይላኩ"}
+                </span>
               </h1>
+              <style jsx>{`
+                @keyframes fadeInOut {
+                  0%, 45% { opacity: 1; }
+                  50% { opacity: 0; }
+                  55%, 100% { opacity: 1; }
+                }
+              `}</style>
               <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
                 Connect with verified travelers who have extra luggage space and are heading to Ethiopia. 
                 A safe, reliable, and cost-effective way to send packages abroad.

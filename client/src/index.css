@@ -2,7 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.cdnfonts.com/css/nyala');
+@font-face {
+  font-family: 'Nyala';
+  src: url('https://fonts.cdnfonts.com/css/nyala') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.amharic {
+  font-family: 'Nyala', serif;
+}
 
 :root {
       --background: 0 0% 100%;
