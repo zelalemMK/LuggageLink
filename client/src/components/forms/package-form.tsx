@@ -51,7 +51,7 @@ export function PackageForm() {
     senderCity: "",
     receiverCity: "Addis Ababa",
     packageType: "Full Luggage",
-    weight: 20,
+    weight: 23,
     dimensions: {
       length: 55,
       width: 40,
@@ -185,22 +185,39 @@ export function PackageForm() {
             <FormField
               control={form.control}
               name="weight"
-              render={({ field }) => (
-                <FormItem className="sm:col-span-3">
-                  <FormLabel>Package Weight (kg)</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      step="0.1"
-                      placeholder="e.g. 2.5"
-                      {...field}
-                      value={field.value.toString()}
-                      onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              render={({ field }) => {
+                const [unit, setUnit] = useState<'kg' | 'lb'>('kg');
+                const displayValue = unit === 'lb' ? Math.round(field.value * 2.20462) : field.value;
+
+                return (
+                  <FormItem className="sm:col-span-3">
+                    <FormLabel>Package Weight</FormLabel>
+                    <div className="flex space-x-2">
+                      <FormControl className="flex-1">
+                        <Input
+                          type="number"
+                          step="0.1"
+                          placeholder={unit === 'kg' ? "e.g. 23" : "e.g. 50"}
+                          value={displayValue.toString()}
+                          onChange={(e) => {
+                            const val = parseFloat(e.target.value);
+                            field.onChange(unit === 'lb' ? val / 2.20462 : val);
+                          }}
+                        />
+                      </FormControl>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setUnit(unit === 'kg' ? 'lb' : 'kg')}
+                        className="w-16"
+                      >
+                        {unit.toUpperCase()}
+                      </Button>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
             />
 
             <div className="sm:col-span-6">
