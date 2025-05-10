@@ -52,7 +52,7 @@ export function HeroSection() {
       <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
         <img
           className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
-          src="/attached_assets/ChatGPT Image May 10, 2025, 09_02_42 AM.png"
+          src="../../attached_assets/ChatGPT Image May 10, 2025, 09_02_42 AM.png"
           alt="Ethiopian traveler with orange luggage at airport"
         />
       </div>
