@@ -29,6 +29,8 @@ export default function VerificationPage() {
   const [verificationCode, setVerificationCode] = useState("");
   const [verificationDialogOpen, setVerificationDialogOpen] = useState(false);
   const [currentVerificationType, setCurrentVerificationType] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   // Redirect to auth page if not logged in
   if (!user) {
@@ -41,7 +43,16 @@ export default function VerificationPage() {
   };
 
   const handleConfirmVerification = async () => {
-    if (!verificationCode) {
+    if (currentVerificationType === 'idVerified' && !selectedFile) {
+      toast({
+        title: "File required",
+        description: "Please select a file to upload",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if ((currentVerificationType === 'phoneVerified' || currentVerificationType === 'addressVerified') && !verificationCode) {
       toast({
         title: "Verification code required",
         description: "Please enter the verification code",
@@ -55,10 +66,21 @@ export default function VerificationPage() {
     try {
       setIsUploading(currentVerificationType);
 
-      // For MVP, we'll simulate verification by just marking it as verified
-      const response = await apiRequest("POST", "/api/verification", {
-        verificationType: currentVerificationType,
-      });
+      if (currentVerificationType === 'idVerified' && selectedFile) {
+        // Create form data for file upload
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+        formData.append('verificationType', currentVerificationType);
+
+        // For MVP, we'll simulate verification by just marking it as verified
+        const response = await apiRequest("POST", "/api/verification", {
+          verificationType: currentVerificationType,
+        });
+      } else {
+        const response = await apiRequest("POST", "/api/verification", {
+          verificationType: currentVerificationType,
+        });
+      }
 
       queryClient.invalidateQueries({ queryKey: ["/api/user"] });
 
@@ -69,6 +91,8 @@ export default function VerificationPage() {
 
       setVerificationDialogOpen(false);
       setVerificationCode("");
+      setSelectedFile(null);
+      setPreviewUrl(null);
     } catch (error) {
       toast({
         title: "Verification failed",
@@ -312,6 +336,21 @@ export default function VerificationPage() {
                 <p className="text-xs text-gray-400 mb-4 text-center">
                   Supported formats: JPG, PNG, PDF (max 5MB)
                 </p>
+                {previewUrl && (
+                  <div className="mb-4">
+                    {selectedFile?.type === 'application/pdf' ? (
+                      <div className="bg-gray-100 p-4 rounded-md text-center">
+                        <p className="text-sm text-gray-600">PDF Selected: {selectedFile.name}</p>
+                      </div>
+                    ) : (
+                      <img 
+                        src={previewUrl} 
+                        alt="ID Preview" 
+                        className="max-w-full h-auto rounded-md shadow-sm" 
+                      />
+                    )}
+                  </div>
+                )}
                 <input
                   type="file"
                   id="id-upload"
@@ -320,7 +359,12 @@ export default function VerificationPage() {
                   onChange={(e) => {
                     const file = e.target.files?.[0];
                     if (file) {
-                      // For demo, we'll just simulate upload success
+                      setSelectedFile(file);
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        setPreviewUrl(reader.result as string);
+                      };
+                      reader.readAsDataURL(file);
                       toast({
                         title: "File selected",
                         description: `Selected ${file.name}`,
