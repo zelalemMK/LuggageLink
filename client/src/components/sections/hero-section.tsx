@@ -23,22 +23,29 @@ export function HeroSection() {
             <div className="sm:text-center lg:text-left">
               <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
                 <span className="block xl:inline">Connect with travelers to</span>{" "}
-                <span 
-                  className="block text-primary-600 xl:inline transition-opacity duration-500"
-                  style={{ 
-                    animation: 'fadeInOut 6s infinite',
-                    WebkitAnimation: 'fadeInOut 6s infinite'
-                  }}
-                >
-                  {new Date().getTime() % 6000 > 3000 
-                    ? "send items to Ethiopia"
-                    : "እቃዎን ወደ ኢትዮጵያ ይላኩ"}
+                <span className="block text-primary-600 xl:inline relative">
+                  <span 
+                    className="absolute inset-0 animate-[fadeInOut_6s_ease-in-out_infinite]"
+                    style={{ fontFamily: 'Nyala, serif' }}
+                  >
+                    እቃዎን ወደ ኢትዮጵያ ይላኩ
+                  </span>
+                  <span 
+                    className="animate-[fadeOutIn_6s_ease-in-out_infinite]"
+                  >
+                    send items to Ethiopia
+                  </span>
                 </span>
               </h1>
               <style jsx>{`
                 @keyframes fadeInOut {
                   0%, 45% { opacity: 1; }
                   50% { opacity: 0; }
+                  55%, 100% { opacity: 0; }
+                }
+                @keyframes fadeOutIn {
+                  0%, 45% { opacity: 0; }
+                  50% { opacity: 1; }
                   55%, 100% { opacity: 1; }
                 }
               `}</style>
