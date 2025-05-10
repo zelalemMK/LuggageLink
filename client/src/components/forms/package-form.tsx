@@ -272,9 +272,12 @@ export function PackageForm() {
                   <FormControl>
                     <Input 
                       type="date" 
-                      {...field}
-                      value={field.value ? field.value.toISOString().split('T')[0] : ''}
-                      onChange={(e) => field.onChange(new Date(e.target.value))}
+                      value={field.value instanceof Date ? field.value.toISOString().split('T')[0] : ''}
+                      onChange={(e) => {
+                        const date = new Date(e.target.value);
+                        date.setUTCHours(12, 0, 0, 0); // Set to noon UTC to avoid timezone issues
+                        field.onChange(date);
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
