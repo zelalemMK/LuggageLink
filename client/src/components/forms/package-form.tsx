@@ -200,19 +200,15 @@ export function PackageForm() {
                           placeholder={unit === 'kg' ? "e.g. 23" : "e.g. 50"}
                           value={displayValue.toString()}
                           onChange={(e) => {
-                            const val = parseFloat(e.target.value) || 0;
-                            field.onChange(unit === 'lb' ? Math.min(val, 50) / 2.20462 : Math.min(val, 23));
+                            const val = parseFloat(e.target.value);
+                            field.onChange(unit === 'lb' ? val / 2.20462 : val);
                           }}
                         />
                       </FormControl>
                       <Button
                         type="button"
                         variant="outline"
-                        onClick={() => {
-                          const newUnit = unit === 'kg' ? 'lb' : 'kg';
-                          setUnit(newUnit);
-                          field.onChange(newUnit === 'lb' ? field.value * 2.20462 : field.value / 2.20462);
-                        }}
+                        onClick={() => setUnit(unit === 'kg' ? 'lb' : 'kg')}
                         className="w-16"
                       >
                         {unit.toUpperCase()}
