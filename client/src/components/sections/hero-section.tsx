@@ -30,7 +30,7 @@ export function HeroSection() {
                     ሻንጣ ወደ ኢትዮጵያ ይላኩ
                   </span>
                   <span className="absolute inset-0 text-primary-600 animate-fade-out-in">
-                    send luggage to Ethiopia
+                    Send Luggage to Ethiopia
                   </span>
                 </div>
               </h1>
