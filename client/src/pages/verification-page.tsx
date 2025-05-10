@@ -1,10 +1,11 @@
+
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
 import { Redirect } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, ShieldAlert, Upload, Circle, Check } from "lucide-react";
+import { IdCard, Phone, Home, Upload, CheckCircle, ShieldAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -20,7 +21,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Helmet } from "react-helmet";
 
 export default function VerificationPage() {
   const { user } = useAuth();
@@ -55,8 +55,7 @@ export default function VerificationPage() {
     try {
       setIsUploading(currentVerificationType);
 
-      // In a real app, we would validate the verification code here
-      // For this MVP, we'll just mark the verification as successful
+      // For MVP, we'll simulate verification by just marking it as verified
       const response = await apiRequest("POST", "/api/verification", {
         verificationType: currentVerificationType,
       });
@@ -109,260 +108,254 @@ export default function VerificationPage() {
   };
 
   return (
-    <>
-      <Helmet>
-        <title>Verification - LuggageLink</title>
-        <meta name="description" content="Verify your identity on LuggageLink to build trust and access all features of the platform." />
-      </Helmet>
-      <div className="min-h-screen flex flex-col">
-        <Header />
-        <main className="flex-grow bg-gray-50 py-8">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="mb-8">
-              <h1 className="text-2xl font-bold text-gray-900">Verification Center</h1>
-              <p className="text-gray-600">Verify your identity to build trust and unlock all features</p>
-            </div>
-
-            <Card className="mb-6">
-              <CardHeader>
-                <CardTitle>Verification Status</CardTitle>
-                <CardDescription>
-                  Your current verification status, more verifications mean more trust
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <Card className="border-2 border-opacity-50 border-gray-200">
-                    <CardHeader className="pb-2">
-                      <div className="flex justify-between items-center">
-                        <CardTitle className="text-base">ID Verification</CardTitle>
-                        {getVerificationStatus(user.verificationStatus.idVerified)}
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-gray-500 mb-4">
-                        Verify your identity with a government-issued ID
-                      </p>
-                      <Button
-                        className="w-full"
-                        variant={user.verificationStatus.idVerified ? "outline" : "default"}
-                        disabled={user.verificationStatus.idVerified || isUploading !== null}
-                        onClick={() => handleVerificationClick("idVerified")}
-                      >
-                        {user.verificationStatus.idVerified ? (
-                          "Verified"
-                        ) : isUploading === "idVerified" ? (
-                          <>
-                            <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            Processing
-                          </>
-                        ) : (
-                          <>
-                            <Upload className="h-4 w-4 mr-2" />
-                            Verify ID
-                          </>
-                        )}
-                      </Button>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="border-2 border-opacity-50 border-gray-200">
-                    <CardHeader className="pb-2">
-                      <div className="flex justify-between items-center">
-                        <CardTitle className="text-base">Phone Verification</CardTitle>
-                        {getVerificationStatus(user.verificationStatus.phoneVerified)}
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-gray-500 mb-4">
-                        Verify your phone number via SMS code
-                      </p>
-                      <Button
-                        className="w-full"
-                        variant={user.verificationStatus.phoneVerified ? "outline" : "default"}
-                        disabled={user.verificationStatus.phoneVerified || isUploading !== null}
-                        onClick={() => handleVerificationClick("phoneVerified")}
-                      >
-                        {user.verificationStatus.phoneVerified ? (
-                          "Verified"
-                        ) : isUploading === "phoneVerified" ? (
-                          <>
-                            <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            Processing
-                          </>
-                        ) : (
-                          <>
-                            <Upload className="h-4 w-4 mr-2" />
-                            Verify Phone
-                          </>
-                        )}
-                      </Button>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="border-2 border-opacity-50 border-gray-200">
-                    <CardHeader className="pb-2">
-                      <div className="flex justify-between items-center">
-                        <CardTitle className="text-base">Address Verification</CardTitle>
-                        {getVerificationStatus(user.verificationStatus.addressVerified)}
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-gray-500 mb-4">
-                        Verify your residence address
-                      </p>
-                      <Button
-                        className="w-full"
-                        variant={user.verificationStatus.addressVerified ? "outline" : "default"}
-                        disabled={user.verificationStatus.addressVerified || isUploading !== null}
-                        onClick={() => handleVerificationClick("addressVerified")}
-                      >
-                        {user.verificationStatus.addressVerified ? (
-                          "Verified"
-                        ) : isUploading === "addressVerified" ? (
-                          <>
-                            <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            Processing
-                          </>
-                        ) : (
-                          <>
-                            <Upload className="h-4 w-4 mr-2" />
-                            Verify Address
-                          </>
-                        )}
-                      </Button>
-                    </CardContent>
-                  </Card>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Why Verification Matters</CardTitle>
-                <CardDescription>
-                  Verification helps build trust and security in our community
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  <div className="flex gap-4">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-100 text-primary-600">
-                      <Check className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-medium">Higher Trust</h3>
-                      <p className="text-gray-500">
-                        Verified users are more likely to be trusted by others, leading to more successful connections.
-                      </p>
-                    </div>
-                  </div>
-                  <Separator />
-                  <div className="flex gap-4">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-100 text-primary-600">
-                      <Check className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-medium">Better Matches</h3>
-                      <p className="text-gray-500">
-                        Many senders and travelers prefer working with verified users for safety and reliability.
-                      </p>
-                    </div>
-                  </div>
-                  <Separator />
-                  <div className="flex gap-4">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-100 text-primary-600">
-                      <Check className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-medium">Community Safety</h3>
-                      <p className="text-gray-500">
-                        Verification helps ensure everyone on the platform is who they claim to be, creating a safer community.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-grow bg-gray-50 py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8">
+            <h1 className="text-2xl font-bold text-gray-900">Verification Center</h1>
+            <p className="text-gray-600">Verify your identity to build trust and unlock all features</p>
           </div>
-        </main>
-        <Footer />
 
-        {/* Verification Dialog */}
-        <Dialog open={verificationDialogOpen} onOpenChange={setVerificationDialogOpen}>
-          <DialogContent className="sm:max-w-md">
-            <DialogHeader>
-              <DialogTitle>
-                Verify Your {getVerificationTypeLabel(currentVerificationType || "")}
-              </DialogTitle>
-              <DialogDescription>
-                {currentVerificationType === "idVerified" && "Upload a government-issued ID to verify your identity."}
-                {currentVerificationType === "phoneVerified" && "Enter the verification code sent to your phone."}
-                {currentVerificationType === "addressVerified" && "Upload proof of address, such as a utility bill or bank statement."}
-              </DialogDescription>
-            </DialogHeader>
-            <div className="space-y-4">
-              {currentVerificationType === "idVerified" && (
-                <div className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 p-6 rounded-md">
-                  <Upload className="h-10 w-10 text-gray-400 mb-2" />
-                  <p className="text-sm text-gray-500 mb-2">Upload your ID document</p>
-                  <p className="text-xs text-gray-400 mb-4 text-center">
-                    Supported formats: JPG, PNG, PDF (max 5MB)
-                  </p>
-                  <Button>Select File</Button>
-                </div>
-              )}
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>Verification Status</CardTitle>
+              <CardDescription>
+                Your current verification status, more verifications mean more trust
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Card className="border-2 border-opacity-50 border-gray-200">
+                  <CardHeader className="pb-2">
+                    <div className="flex justify-between items-center">
+                      <CardTitle className="text-base">ID Verification</CardTitle>
+                      {getVerificationStatus(user.verificationStatus.idVerified)}
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-gray-500 mb-4">
+                      Verify your identity with a government-issued ID
+                    </p>
+                    <Button
+                      className="w-full"
+                      variant={user.verificationStatus.idVerified ? "outline" : "default"}
+                      disabled={user.verificationStatus.idVerified || isUploading !== null}
+                      onClick={() => handleVerificationClick("idVerified")}
+                    >
+                      {user.verificationStatus.idVerified ? (
+                        "Verified"
+                      ) : isUploading === "idVerified" ? (
+                        <>
+                          <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Processing
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="h-4 w-4 mr-2" />
+                          Verify ID
+                        </>
+                      )}
+                    </Button>
+                  </CardContent>
+                </Card>
 
-              {(currentVerificationType === "phoneVerified" || currentVerificationType === "addressVerified") && (
-                <div className="space-y-4">
+                <Card className="border-2 border-opacity-50 border-gray-200">
+                  <CardHeader className="pb-2">
+                    <div className="flex justify-between items-center">
+                      <CardTitle className="text-base">Phone Verification</CardTitle>
+                      {getVerificationStatus(user.verificationStatus.phoneVerified)}
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-gray-500 mb-4">
+                      Verify your phone number via SMS code
+                    </p>
+                    <Button
+                      className="w-full"
+                      variant={user.verificationStatus.phoneVerified ? "outline" : "default"}
+                      disabled={user.verificationStatus.phoneVerified || isUploading !== null}
+                      onClick={() => handleVerificationClick("phoneVerified")}
+                    >
+                      {user.verificationStatus.phoneVerified ? (
+                        "Verified"
+                      ) : isUploading === "phoneVerified" ? (
+                        <>
+                          <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Processing
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="h-4 w-4 mr-2" />
+                          Verify Phone
+                        </>
+                      )}
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-2 border-opacity-50 border-gray-200">
+                  <CardHeader className="pb-2">
+                    <div className="flex justify-between items-center">
+                      <CardTitle className="text-base">Address Verification</CardTitle>
+                      {getVerificationStatus(user.verificationStatus.addressVerified)}
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-gray-500 mb-4">
+                      Verify your residence address
+                    </p>
+                    <Button
+                      className="w-full"
+                      variant={user.verificationStatus.addressVerified ? "outline" : "default"}
+                      disabled={user.verificationStatus.addressVerified || isUploading !== null}
+                      onClick={() => handleVerificationClick("addressVerified")}
+                    >
+                      {user.verificationStatus.addressVerified ? (
+                        "Verified"
+                      ) : isUploading === "addressVerified" ? (
+                        <>
+                          <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Processing
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="h-4 w-4 mr-2" />
+                          Verify Address
+                        </>
+                      )}
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Why Verification Matters</CardTitle>
+              <CardDescription>
+                Verification helps build trust and security in our community
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-6">
+                <div className="flex gap-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-100 text-primary-600">
+                    <CheckCircle className="h-6 w-6" />
+                  </div>
                   <div>
-                    <label htmlFor="verification-code" className="block text-sm font-medium text-gray-700">
-                      Verification Code
-                    </label>
-                    <Input
-                      id="verification-code"
-                      placeholder="Enter verification code"
-                      value={verificationCode}
-                      onChange={(e) => setVerificationCode(e.target.value)}
-                      className="mt-1"
-                    />
-                    <p className="mt-1 text-xs text-gray-500">
-                      For demo purposes, any code will work
+                    <h3 className="text-lg font-medium">Higher Trust</h3>
+                    <p className="text-gray-500">
+                      Verified users are more likely to be trusted by others, leading to more successful connections.
                     </p>
                   </div>
                 </div>
+                <Separator />
+                <div className="flex gap-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-100 text-primary-600">
+                    <CheckCircle className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-medium">Better Matches</h3>
+                    <p className="text-gray-500">
+                      Many senders and travelers prefer working with verified users for safety and reliability.
+                    </p>
+                  </div>
+                </div>
+                <Separator />
+                <div className="flex gap-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-100 text-primary-600">
+                    <CheckCircle className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-medium">Community Safety</h3>
+                    <p className="text-gray-500">
+                      Verification helps ensure everyone on the platform is who they claim to be, creating a safer community.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </main>
+      <Footer />
+
+      {/* Verification Dialog */}
+      <Dialog open={verificationDialogOpen} onOpenChange={setVerificationDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>
+              Verify Your {getVerificationTypeLabel(currentVerificationType || "")}
+            </DialogTitle>
+            <DialogDescription>
+              {currentVerificationType === "idVerified" && "Upload a government-issued ID to verify your identity."}
+              {currentVerificationType === "phoneVerified" && "Enter the verification code sent to your phone."}
+              {currentVerificationType === "addressVerified" && "Upload proof of address, such as a utility bill or bank statement."}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            {currentVerificationType === "idVerified" && (
+              <div className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 p-6 rounded-md">
+                <Upload className="h-10 w-10 text-gray-400 mb-2" />
+                <p className="text-sm text-gray-500 mb-2">Upload your ID document</p>
+                <p className="text-xs text-gray-400 mb-4 text-center">
+                  Supported formats: JPG, PNG, PDF (max 5MB)
+                </p>
+                <Button>Select File</Button>
+              </div>
+            )}
+
+            {(currentVerificationType === "phoneVerified" || currentVerificationType === "addressVerified") && (
+              <div className="space-y-4">
+                <div>
+                  <label htmlFor="verification-code" className="block text-sm font-medium text-gray-700">
+                    Verification Code
+                  </label>
+                  <Input
+                    id="verification-code"
+                    placeholder="Enter verification code"
+                    value={verificationCode}
+                    onChange={(e) => setVerificationCode(e.target.value)}
+                    className="mt-1"
+                  />
+                  <p className="mt-1 text-xs text-gray-500">
+                    For demo purposes, any code will work
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setVerificationDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleConfirmVerification} disabled={isUploading !== null}>
+              {isUploading === currentVerificationType ? (
+                <>
+                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Verifying...
+                </>
+              ) : (
+                "Submit Verification"
               )}
-            </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setVerificationDialogOpen(false)}>
-                Cancel
-              </Button>
-              <Button onClick={handleConfirmVerification} disabled={isUploading !== null}>
-                {isUploading === currentVerificationType ? (
-                  <>
-                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Verifying...
-                  </>
-                ) : (
-                  "Submit Verification"
-                )}
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </div>
-    </>
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 }
