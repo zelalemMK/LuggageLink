@@ -37,7 +37,7 @@ const registerSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters"),
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
-  phoneNumber: z.string().min(10, "Phone number must be at least 10 digits"),
+  idDocument: z.string().optional(), // Added idDocument field to schema
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -307,16 +307,18 @@ export default function AuthPage() {
                               </Button>
                             </>
                           )}
-                          <FormField
+                          {registrationStep === 2 && (
+                            <>
+                              <FormField
                                 control={registerForm.control}
-                                name="phoneNumber"
+                                name="idDocument"
                                 render={({ field }) => (
                                   <FormItem>
-                                    <FormLabel>Phone Number</FormLabel>
+                                    <FormLabel>ID Document</FormLabel>
                                     <FormControl>
                                       <Input
-                                        type="tel"
-                                        placeholder="Enter your phone number"
+                                        type="file"
+                                        accept=".pdf,.jpg,.jpeg,.png"
                                         {...field}
                                       />
                                     </FormControl>
@@ -334,6 +336,8 @@ export default function AuthPage() {
                                   ? "Creating account..."
                                   : "Create Account"}
                               </Button>
+                            </>
+                          )}
                         </form>
                       </Form>
                     </CardContent>
