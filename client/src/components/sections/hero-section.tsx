@@ -7,8 +7,10 @@ export function HeroSection() {
 
   return (
     <div className="relative bg-white overflow-hidden">
+      {/* Ethiopian pattern overlay */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+CiAgPHBhdGggZD0iTTAgMGg2MHY2MEgweiIgZmlsbD0ibm9uZSIvPgogIDxwYXRoIGQ9Ik0zMCAyYTE0IDE0IDAgMDAtMTQgMTR2MjhhMTQgMTQgMCAwMDI4IDBWMTZBMTQgMTQgMCAwMDMwIDJ6TTIwIDMwaDIwTTIwIDE1aDIwTTIwIDQ1aDIwIiBzdHJva2U9InJnYmEoMCwwLDAsMC4wNSkiIHN0cm9rZS13aWR0aD0iMiIvPgo8L3N2Zz4=')] opacity-10"></div>
       <div className="max-w-7xl mx-auto">
-        <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+        <div className="relative z-10 pb-8 bg-white/90 backdrop-blur-sm sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
           <svg
             className="hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-white transform translate-x-1/2"
             fill="currentColor"
@@ -23,7 +25,7 @@ export function HeroSection() {
             <div className="sm:text-center lg:text-left">
               <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
                 <span className="block xl:inline">Connect with travelers to</span>{" "}
-                <span className="block text-primary-600 xl:inline">send items to Ethiopia</span>
+                <span className="block text-[#e31d1c] xl:inline">send items to Ethiopia</span>
               </h1>
               <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
                 Connect with verified travelers who have extra luggage space and are heading to Ethiopia. 
