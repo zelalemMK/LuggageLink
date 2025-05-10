@@ -9,14 +9,13 @@ export const users = pgTable("users", {
   email: text("email").notNull().unique(),
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
+  phoneNumber: text("phone_number"),
   profileImage: text("profile_image"),
   isVerified: boolean("is_verified").default(false),
   verificationStatus: jsonb("verification_status").$type<{
-    idVerified: boolean;
     phoneVerified: boolean;
     addressVerified: boolean;
   }>().default({
-    idVerified: false,
     phoneVerified: false,
     addressVerified: false
   }),
