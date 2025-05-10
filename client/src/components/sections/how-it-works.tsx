@@ -50,17 +50,20 @@ export function HowItWorks() {
   const steps = [
     {
       title: "1. Verify Your Identity",
-      description: "Create an account and complete our verification process to ensure trust and safety for all users.",
+      description:
+        "Create an account and complete our verification process to ensure trust and safety for all users.",
       icon: <ShieldCheck className="h-6 w-6" />,
     },
     {
       title: "2. Connect & Agree",
-      description: "Travelers post their trips, senders post their packages. Match, chat, and agree on details and compensation.",
+      description:
+        "Travelers post their trips, senders post their packages. Match, chat, and agree on details and compensation.",
       icon: <HandshakeIcon className="h-6 w-6" />,
     },
     {
       title: "3. Send & Receive",
-      description: "Drop off your package with the traveler, track delivery status, and confirm receipt. Payment is held safely until delivery.",
+      description:
+        "Drop off your package with the traveler, track delivery status, and confirm receipt. Payment is held safely until delivery.",
       icon: <SquareCheck className="h-6 w-6" />,
     },
   ];
@@ -76,7 +79,7 @@ export function HowItWorks() {
             Simple, Secure, Reliable
           </p>
           <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-            Our platform connects travelers to Ethiopia with people looking to send packages, creating a win-win situation.
+            Connect travelers to Ethiopia with people looking to send packages
           </p>
         </div>
 
@@ -88,7 +91,9 @@ export function HowItWorks() {
                   <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 text-white">
                     {step.icon}
                   </div>
-                  <p className="ml-16 text-lg leading-6 font-medium text-gray-900">{step.title}</p>
+                  <p className="ml-16 text-lg leading-6 font-medium text-gray-900">
+                    {step.title}
+                  </p>
                 </dt>
                 <dd className="mt-2 ml-16 text-base text-gray-500">
                   {step.description}
