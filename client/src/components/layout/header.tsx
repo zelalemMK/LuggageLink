@@ -45,7 +45,7 @@ export function Header() {
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
               <Link href="/">
-                <a className="text-primary-600 text-2xl font-bold">LuggageLink</a>
+                <a className="text-2xl font-bold bg-gradient-to-r from-[#078930] via-[#FCDD09] to-[#DA121A] bg-clip-text text-transparent" style={{ fontFamily: 'Nyala, serif' }}>LuggageLink</a>
               </Link>
             </div>
             <nav className="hidden sm:ml-6 sm:flex sm:space-x-8">
