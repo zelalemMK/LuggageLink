@@ -22,19 +22,47 @@ export function HeroSection() {
           <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
             <div className="sm:text-center lg:text-left">
               <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                <span className="block xl:inline">Connect with travelers to</span>{" "}
-                <div className="relative h-[1.3em] mt-2 xl:mt-0 xl:inline-block">
+                <span className="block xl:inline"></span>{" "}
+                <span className="block text-primary-600 xl:inline relative">
                   <span
-                    className="absolute inset-0 text-primary-600 opacity-0 animate-fade-in-out"
+                    className="absolute inset-0 animate-[fadeInOut_6s_ease-in-out_infinite]"
                     style={{ fontFamily: "Nyala, serif" }}
                   >
                     ሻንጣ ወደ ኢትዮጵያ ይላኩ
                   </span>
-                  <span className="absolute inset-0 text-primary-600 animate-fade-out-in">
-                    send luggage to Ethiopia
+                  <span className="animate-[fadeOutIn_6s_ease-in-out_infinite]">
+                    Send Luggage to Ethiopia
                   </span>
-                </div>
+                </span>
               </h1>
+              <style jsx>{`
+                @keyframes fadeInOut {
+                  0%,
+                  45% {
+                    opacity: 1;
+                  }
+                  50% {
+                    opacity: 0;
+                  }
+                  55%,
+                  100% {
+                    opacity: 0;
+                  }
+                }
+                @keyframes fadeOutIn {
+                  0%,
+                  45% {
+                    opacity: 0;
+                  }
+                  50% {
+                    opacity: 1;
+                  }
+                  55%,
+                  100% {
+                    opacity: 1;
+                  }
+                }
+              `}</style>
               <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
                 Connect with verified travelers who have extra luggage space and
                 are heading to Ethiopia. A safe, reliable, and cost-effective
