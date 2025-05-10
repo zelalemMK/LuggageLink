@@ -52,8 +52,8 @@ export function HeroSection() {
       <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
         <img
           className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
-          src="https://images.unsplash.com/photo-1632276536839-84cad7fd03b0?auto=format&fit=crop&w=1000&q=80"
-          alt="Luggage carousel at airport"
+          src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1000&q=80"
+          alt="Airplane on runway"
         />
       </div>
     </div>
