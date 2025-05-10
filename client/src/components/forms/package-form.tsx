@@ -270,7 +270,12 @@ export function PackageForm() {
                 <FormItem className="sm:col-span-3">
                   <FormLabel>Need By Date</FormLabel>
                   <FormControl>
-                    <Input type="date" {...field} />
+                    <Input 
+                      type="date" 
+                      {...field}
+                      value={field.value ? field.value.toISOString().split('T')[0] : ''}
+                      onChange={(e) => field.onChange(new Date(e.target.value))}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
