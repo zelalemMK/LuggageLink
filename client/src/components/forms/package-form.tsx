@@ -57,7 +57,7 @@ export function PackageForm() {
       width: 40,
       height: 25,
     },
-    deliveryDeadline: "",
+    deliveryDeadline: new Date(),
     offeredPayment: 200,
     description: "",
     terms: false,
