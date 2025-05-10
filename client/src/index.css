@@ -67,3 +67,24 @@
     @apply font-sans antialiased bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .animate-fade-in-out {
+    animation: fade-in-out 6s ease-in-out infinite;
+  }
+  .animate-fade-out-in {
+    animation: fade-out-in 6s ease-in-out infinite;
+  }
+}
+
+@keyframes fade-in-out {
+  0%, 45% { opacity: 1; }
+  50% { opacity: 0; }
+  55%, 100% { opacity: 0; }
+}
+
+@keyframes fade-out-in {
+  0%, 45% { opacity: 0; }
+  50% { opacity: 1; }
+  55%, 100% { opacity: 1; }
+}
