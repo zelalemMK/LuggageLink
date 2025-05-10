@@ -271,7 +271,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
     
     try {
-      const packageData = insertPackageSchema.parse(req.body);
+      const data = req.body;
+      if (data.deliveryDeadline) {
+        data.deliveryDeadline = new Date(data.deliveryDeadline);
+      }
+      const packageData = insertPackageSchema.parse(data);
       const pkg = await storage.createPackage(packageData, req.user!.id);
       res.status(201).json(pkg);
     } catch (error) {
