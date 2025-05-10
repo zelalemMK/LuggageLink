@@ -312,7 +312,27 @@ export default function VerificationPage() {
                 <p className="text-xs text-gray-400 mb-4 text-center">
                   Supported formats: JPG, PNG, PDF (max 5MB)
                 </p>
-                <Button>Select File</Button>
+                <input
+                  type="file"
+                  id="id-upload"
+                  className="hidden"
+                  accept="image/*, application/pdf"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      // For demo, we'll just simulate upload success
+                      toast({
+                        title: "File selected",
+                        description: `Selected ${file.name}`,
+                      });
+                    }
+                  }}
+                />
+                <Button 
+                  onClick={() => document.getElementById('id-upload')?.click()}
+                >
+                  Select File
+                </Button>
               </div>
             )}
 
