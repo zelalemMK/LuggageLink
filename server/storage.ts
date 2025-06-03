@@ -7,6 +7,7 @@ import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import session from "express-session";
 import createMemoryStore from "memorystore";
+import { PgStorage } from "./pgStorage";
 
 const scryptAsync = promisify(scrypt);
 const MemoryStore = createMemoryStore(session);
@@ -498,4 +499,6 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+export const storage: IStorage = process.env.DATABASE_URL
+  ? new PgStorage()
+  : new MemStorage();
