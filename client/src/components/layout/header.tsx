@@ -21,7 +21,7 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Fetch unread messages count
-  const { data: conversations } = useQuery({
+  const { data: conversations } = useQuery<any[]>({
     queryKey: ["/api/messages"],
     enabled: !!user,
   });
